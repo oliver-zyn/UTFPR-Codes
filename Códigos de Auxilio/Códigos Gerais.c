@@ -4,31 +4,31 @@ SCRIPTS UTEIS PRA PROVA:
 
 EX:
 
-int num, dig1, dig2;
+int num, lengthNum;
+
+while(num != 0) {
+    lengthNum++;
+    num /= 10;
+}
+
+int num, dig, divi, resto, lengthNum, i, y;
 
 num = 1234;
+y = num;
 
-dig1 = num % 10 / 1;
-dig2 = num % 100 / 10;
+while(num != 0) {
+    lengthNum++;
+    num /= 10;
+}
+
+for (resto = 10, divi=1, i = 0; i < lengthNum; i++) {
+    dig = y % resto / divi;
+    resto = resto * 10;
+    divi = divi * 10;
+    printf("%i", dig);
+}
 
 => Vai aumentando de 10 em 10, tanto o divisor, quanto o resto
-
-2. VERIFICAR SE UM NUMERO É PRIMO:
-
-EX:
-
-int j, num, res;
-
-for (j = 2; j <= num / 2; j++) {
-    if (num % j == 0) {
-        res++;
-        break;
-    }
-}
-
-if (resultado == 0) {
-    printf("o numero %i eh primo\n", i)
-}
 
 3. O USUARIO ESCOLHE A QUEBRA DE LINHA
 
@@ -51,14 +51,14 @@ while(num != 0) {
 
 5. PERMITIR QUE O USUARIO EXECUTE O SCRIPT NOVAMENTE
 
-char continuar[] = "";
+char continuar;
 
-do {
+    do {
 
-    printf("\n Deseja repetir o programa (S ou N)? ");
-    scanf(" %c", continuar);
+        printf("\nDeseja repetir o programa (S/s)");
+        scanf(" %c", &continuar);
 
-} while (strcmp("S", continuar) == 0);
+    } while (continuar == 'S' || continuar == 's');
 
 
 6. LIMPEZA DO BUFFER DO TECLADO

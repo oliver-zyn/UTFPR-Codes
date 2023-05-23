@@ -1,4 +1,4 @@
-void vazado(int num, char opcao) {
+void trianguloVazadoOuPreenchido(int num, char opcao) {
     
     int i, y, j;
     
