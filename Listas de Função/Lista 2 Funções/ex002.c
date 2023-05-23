@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int montaArvore(int num) {
+void montaArvore(int num) {
     int i, j;
     
     for(i = 0; i <= num; i++) {
