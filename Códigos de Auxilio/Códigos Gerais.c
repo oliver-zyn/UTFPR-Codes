@@ -1,36 +1,6 @@
 SCRIPTS UTEIS PRA PROVA:
 
-1. PEGAR UM DIGITO SEPARADO:
-
-EX:
-
-int num, lengthNum;
-
-while(num != 0) {
-    lengthNum++;
-    num /= 10;
-}
-
-int num, dig, divi, resto, lengthNum, i, y;
-
-num = 1234;
-y = num;
-
-while(num != 0) {
-    lengthNum++;
-    num /= 10;
-}
-
-for (resto = 10, divi=1, i = 0; i < lengthNum; i++) {
-    dig = y % resto / divi;
-    resto = resto * 10;
-    divi = divi * 10;
-    printf("%i", dig);
-}
-
-=> Vai aumentando de 10 em 10, tanto o divisor, quanto o resto
-
-3. O USUARIO ESCOLHE A QUEBRA DE LINHA
+1. O USUARIO ESCOLHE A QUEBRA DE LINHA
 
 if (count < numeroLinhas) {
     printf("%i \t", i);
@@ -40,7 +10,7 @@ if (count < numeroLinhas) {
     count = 1;
 }
 
-4. DESCOBRIR O LENGTH DE UM NUMERO INTEIRO
+2. DESCOBRIR O LENGTH DE UM NUMERO INTEIRO
 
 int num, lengthNum;
 
@@ -49,7 +19,7 @@ while(num != 0) {
     num /= 10;
 }
 
-5. PERMITIR QUE O USUARIO EXECUTE O SCRIPT NOVAMENTE
+3. PERMITIR QUE O USUARIO EXECUTE O SCRIPT NOVAMENTE
 
 char continuar;
 
@@ -61,7 +31,7 @@ char continuar;
     } while (continuar == 'S' || continuar == 's');
 
 
-6. LIMPEZA DO BUFFER DO TECLADO
+4. LIMPEZA DO BUFFER DO TECLADO
 
 setbuf(stdin, NULL); //limpa o buffer do teclado
 scanf("%c", &ch2);
@@ -70,7 +40,7 @@ OU
 
 scanf(" %c", &ch2);
 
-7. SEQUENCIA DE FIBONACCI
+5. SEQUENCIA DE FIBONACCI
 
 int i, y, x, num;
     
@@ -82,7 +52,7 @@ for (i = 0, y= 1, x= 1; i <= num; x += y, i++) {
     y = x - y;
 }
 
-8. TODAS AS BIBLIOTECAS
+6. TODAS AS BIBLIOTECAS
 
 #include <stdio.h>
 #include <stdbool.h>
@@ -90,7 +60,7 @@ for (i = 0, y= 1, x= 1; i <= num; x += y, i++) {
 #include <math.h>
 #include <string.h>
 
-9. PRA EXERCICIO DE TROCO
+7. PRA EXERCICIO DE TROCO
 
 float valorUnitario, valorCompra, valorPago, troco, centavos, countQuantidade;
 int notas100, notas50, notas20, notas10, notas5, notas2, notas1, quantidade, valorCompraInt;
