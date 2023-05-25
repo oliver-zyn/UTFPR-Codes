@@ -59,6 +59,7 @@ for (i = 0, y= 1, x= 1; i <= num; x += y, i++) {
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <time.h>
 
 7. PRA EXERCICIO DE TROCO
 
