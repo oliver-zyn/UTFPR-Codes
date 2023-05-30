@@ -1,3 +1,32 @@
+void mostraVetorChar(char vet[], int tamanho, int num)
+{
+    int i, j = 0;
+
+    for(i=0; i<tamanho; i++) {
+        if (j < num - 1) {
+            printf("%c ", vet[i]);
+            j++;
+        } else if (j == num - 1) {
+            printf("%c\n", vet[i]);
+            j = 0;
+        }
+    }
+}
+
+void gerarVetorCharMaiscula(char vetor[], int tam) {
+    
+    for (int i = 0; i < tam; i++) {
+        vetor[i] = rand() % 26 + 65;
+    }
+}
+
+void gerarVetorCharMinuscula(char vetor[], int tam) {
+    
+    for (int i = 0; i < tam; i++) {
+        vetor[i] = rand() % 26 + 97;
+    }
+}
+
 int qtdDivisores(int num) {
     
     int i, cont = 0;
