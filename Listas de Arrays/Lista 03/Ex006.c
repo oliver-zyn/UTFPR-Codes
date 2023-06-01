@@ -4,7 +4,7 @@
 #include <math.h>
 #include <string.h>
 #include <time.h>
-#include "funções.h"
+#include "funcoes.h"
 
 int main(void) {
     
