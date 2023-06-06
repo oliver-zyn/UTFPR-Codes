@@ -1,6 +1,23 @@
 #include <stdio.h>
 #include "strings.h"
 
+void limparBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF){}
+}
+
+int comparaString(char string1[], char string2[]) {
+    int resultado = strcmp(string1, string2);
+    
+    if (resultado == 0) {
+        resultado = 1;
+    } else {
+        resultado = 0;
+    }
+    
+    return resultado;
+}
+
 int main()
 {
     char continuar;
