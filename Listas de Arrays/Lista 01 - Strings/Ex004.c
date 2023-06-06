@@ -6,16 +6,21 @@ void limparBuffer() {
     while ((c = getchar()) != '\n' && c != EOF){}
 }
 
-int comparaString(char string1[], char string2[]) {
-    int resultado = strcmp(string1, string2);
-    
-    if (resultado == 0) {
-        resultado = 1;
-    } else {
-        resultado = 0;
+int comparaString(char str1[], char str2[]) {
+    int i = 0;
+
+    while (str1[i] != '\0' && str2[i] != '\0') {
+        if (str1[i] != str2[i]) {
+            return 0;
+        }
+        i++;
     }
-    
-    return resultado;
+
+    if (str1[i] == '\0' && str2[i] == '\0') {
+        return 1;
+    }
+
+    return 0;
 }
 
 int main()
