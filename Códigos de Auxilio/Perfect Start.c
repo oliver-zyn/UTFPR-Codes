@@ -14,8 +14,8 @@ int main(void) {
         
         
         printf("\nDeseja repetir o programa (S/s)");
-        fflush(stdin);
         scanf(" %c", &continuar);
+        fflush(stdin);
         
     } while (continuar == 'S' || continuar == 's');
     
