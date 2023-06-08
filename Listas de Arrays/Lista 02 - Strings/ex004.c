@@ -69,7 +69,7 @@ void primeirasLetras(char vetor[], char string[]) {
   }
   
   for (i = 0; i < j; i++) {
-    printf("%c\t", vetor[i]);
+    printf("%c ", vetor[i]);
   }
   
   printf("\n");
@@ -88,7 +88,7 @@ void ultimasLetras(char vetor[], char string[]) {
   }
 
   for (i = 0; i < j; i++) {
-    printf("%c\t", vetor[i]);
+    printf("%c ", vetor[i]);
   }
 
   printf("\n");
@@ -108,7 +108,9 @@ int main(void) {
         gets(string);
 
         printf("\n'%s' tem %d palavras\n\n", string, contaPalavras(string));
+        printf("Primeiras letras de cada palavra: ");
         primeirasLetras(vetorPrimeiras, string);
+        printf("Ultimas letras de cada palavra: ");
         ultimasLetras(vetorUltimas, string);
         printf("Primeira palavra: ");
         copiaPrimeiraPalavra(string);

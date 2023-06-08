@@ -21,7 +21,7 @@ void ultimasLetras(char vetor[], char string[]) {
   }
 
   for (i = 0; i < j; i++) {
-    printf("%c\t", vetor[i]);
+    printf("%c  ", vetor[i]);
   }
 
   printf("\n");
