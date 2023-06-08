@@ -11,7 +11,7 @@ int tamanhoString(char str[]) {
 }
 
 void copiaPrimeiraPalavra(char string[]) {
-    int i, j = 0, y = 0, primeiroEspaco = 0;
+    int i, j = 0, primeiroEspaco = 0;
     char stringPalavra[50];
     
     for (i = 0; string[i] != '\0'; i++) {
@@ -49,8 +49,6 @@ int contaPalavras(char string[]) {
     } else if (novaPalavra == 1) {
       countPalavras++;
       novaPalavra = 0;
-    } else {
-      continue;
     }
   }
 
@@ -58,8 +56,26 @@ int contaPalavras(char string[]) {
 
 }
 
-void ultimasLetras(char vetor[], char string[]) {
+void primeirasLetras(char vetor[], char string[]) {
+  int i = 0, size = 0, j = 0;
 
+  size = tamanhoString(string);
+
+  for (i = 0; i <= size; i++) {
+    if ((i == 0 && string[i] != ' ') || (string[i] != ' ' && string[i-1] == ' ')) {
+      vetor[j] = string[i];
+      j++;
+    }
+  }
+  
+  for (i = 0; i < j; i++) {
+    printf("%c\t", vetor[i]);
+  }
+  
+  printf("\n");
+}
+
+void ultimasLetras(char vetor[], char string[]) {
   int i = 0, size = 0, j = 0;
 
   size = tamanhoString(string);
@@ -70,9 +86,11 @@ void ultimasLetras(char vetor[], char string[]) {
       j++;
     }
   }
+
   for (i = 0; i < j; i++) {
     printf("%c\t", vetor[i]);
   }
+
   printf("\n");
 }
 
@@ -84,13 +102,14 @@ int main(void) {
 
     do {
 
-      char string[100], vetor[100];
+      char string[100], vetorUltimas[100], vetorPrimeiras[100];
         
         printf("Informe uma string de ate 100 caracteres: ");
         gets(string);
 
         printf("\n'%s' tem %d palavras\n\n", string, contaPalavras(string));
-        ultimasLetras(vetor, string);
+        primeirasLetras(vetorPrimeiras, string);
+        ultimasLetras(vetorUltimas, string);
         printf("Primeira palavra: ");
         copiaPrimeiraPalavra(string);
 
