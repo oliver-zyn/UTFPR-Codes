@@ -10,6 +10,33 @@ int tamanhoString(char str[]) {
   return (tamanho - 1);
 }
 
+void copiaPrimeiraPalavra(char string[]) {
+    int i, j = 0, y = 0, primeiroEspaco = 0;
+    char stringPalavra[50];
+    
+    for (i = 0; string[i] != '\0'; i++) {
+        
+        if (primeiroEspaco == 0) {
+            while (string[i] == ' ') {
+                i++;
+            }
+        }
+        
+        primeiroEspaco = 1;
+        
+        if (string[i] != ' ' && string[i] != '\n') {
+            stringPalavra[j] = string[i];
+            j++;
+        } else {
+            break;
+        }
+        
+    }
+    
+    stringPalavra[j] = '\0';
+    printf("%s\n", stringPalavra);
+}
+
 int contaPalavras(char string[]) {
 
   int i = 0, size = 0, countPalavras = 0, novaPalavra = 1;
@@ -31,19 +58,42 @@ int contaPalavras(char string[]) {
 
 }
 
+void ultimasLetras(char vetor[], char string[]) {
+
+  int i = 0, size = 0, j = 0;
+
+  size = tamanhoString(string);
+
+  for(i = 0; i <= size; i++) {
+    if ((string[i] != ' ' && string[i+1] == ' ') || (string[i] != ' ' && string[i + 1] == '\0')) {
+      vetor[j] = string[i];
+      j++;
+    }
+  }
+  for (i = 0; i < j; i++) {
+    printf("%c\t", vetor[i]);
+  }
+  printf("\n");
+}
+
+ /* Universidade   Tecnologica  Federal    do  Parana  */
+
 int main(void) {
     
     char continuar;
 
     do {
 
-      char string[100];
+      char string[100], vetor[100];
         
         printf("Informe uma string de ate 100 caracteres: ");
-        fgets(string, sizeof(string), stdin);
+        gets(string);
 
-        printf("n palavras: %d\n", contaPalavras(string));
-        
+        printf("\n'%s' tem %d palavras\n\n", string, contaPalavras(string));
+        ultimasLetras(vetor, string);
+        printf("Primeira palavra: ");
+        copiaPrimeiraPalavra(string);
+
         printf("\nDeseja repetir o programa (S/s)");
         scanf(" %c", &continuar);
         fflush(stdin);
