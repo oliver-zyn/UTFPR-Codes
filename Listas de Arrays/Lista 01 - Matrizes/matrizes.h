@@ -26,7 +26,6 @@ void mostrarMatrizInteiro(int linha, int coluna, int matriz[linha][coluna]) {
         }
         printf("\n");
     }
-
 }
 
 void mostraVetorInteiros(int vet[], int tamanho)
