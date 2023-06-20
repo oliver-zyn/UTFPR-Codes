@@ -2,7 +2,7 @@
 
 int transformaCharEmInt(char texto[], int textoInt[]) {
 
-    int i, size = 0, charc, j = 0, sizeEspaco = 0;
+    int i, size = 0, size1 = 0, charc, j = 0, sizeEspaco = 0;
 
     while (texto[size] != '\0') {
         if (texto[size] != ' ') {
@@ -18,10 +18,11 @@ int transformaCharEmInt(char texto[], int textoInt[]) {
             charc = texto[i];
             textoInt[j] = charc;
             j++;
-        } 
+        }
     }
-    size - sizeEspaco;
-    return size;
+    size1 = size - sizeEspaco;
+    printf("size: %d, size1: %d, sizeEspaco: %d", size, size1, sizeEspaco);
+    return size1;
 }
 
 void mostraVetorInteiro(int vetor[], int size) {
@@ -33,18 +34,17 @@ void mostraVetorInteiro(int vetor[], int size) {
     }
 }
 
-void ordenaVetor(int vetor[], int size) {
-    int i, y, z;
-
-    for(y = size-1; y > 0; y--) {
-        for(i = 0; i < size; i++){
-            if (vetor[i] > vetor[i+1]) {
-                z = vetor[i];
-                vetor[i] = vetor[i + 1];
-                vetor[i + 1] = z;
-            }
-        }
+void ordenaVetor(int vetor[], int tam) {
+  int aux, i, j;
+  for (j = tam - 1; j > 0; j--) {
+    for (i = 0; i < j; i++) {
+      if (vetor[i] > vetor[i + 1]) {
+        aux = vetor[i];
+        vetor[i] = vetor[i + 1];
+        vetor[i + 1] = aux;
+      }
     }
+  }
 }
 
 int noReps(int vetors[], int size) {
@@ -106,22 +106,37 @@ void vetorParImpar(int vetor[], int size) {
 
 void matrizParImpar(int vetor[], int size) {
 
-    int countPar = 0, count = 0, countImpar = 0, j = 0, y = 0;
+    int size2 = 0, count = 0, j = 0, y = 0;
     int vetorPar[size], vetorImpar[size];
     
     for(int i = 0; i < size; i++) {
         if (vetor[i] == vetor[i+1]) {
             count++;
         } else {
-            result[j] = count;
+            if (vetor[i] % 2 == 0) {
+                vetorPar[j] = count;
+                j++;
+            } else {
+                vetorImpar[y] = count;
+                y++;
+            }
             count = 0;
+        }
+    }
+    size2 = noReps(vetor, size);
+    printf("\n\n==== MATRIZ PAR ====\n");
+    for (int i = 0, j = 0; i < size2; i++) {
+        if (vetor[i] % 2 == 0) {
+            printf("%d\t%d\n", vetor[i], vetorPar[j]+1);
             j++;
         }
     }
-    noReps(vetor, size);
-    printf("\n==== MATRIZ ====\n");
-    for (int i = 0; i < j; i++) {
-        printf("%d\t%d\n", resultado[i], result[i]+1);
-    }  
+    printf("\n==== MATRIZ IMPAR ====\n");
+    for (int i = 0, y = 0; i < size2; i++) {
+        if (vetor[i] % 2 != 0) {
+            printf("%d\t%d\n", vetor[i], vetorImpar[y]+1);
+            y++;
+        }
+    }
 }
 
