@@ -12,10 +12,13 @@ int main(void) {
 
     do {
 
-        char texto[100] = " eu gosto  de maca  ";
+        char texto[100];
         int vetor[100], vetor0[100], size = 0;
 
-        size = transformaCharEmInt(texto, vetor) - 7;
+        printf("Informe um texto: ");
+        gets(texto);
+        fflush(stdin);
+        size = transformaCharEmInt(texto, vetor);
         printf("\n\n==== VETOR ====\n");
         mostraVetorInteiro(vetor, size);
         ordenaVetor(vetor, size);
