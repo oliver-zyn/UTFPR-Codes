@@ -15,8 +15,7 @@ void mostraVetorInt(int vetorint[], int tamanho)
 {
     int i;
 
-    for(i=0; i<tamanho; i++)
-    {
+    for(i=0; i<tamanho; i++) {
         printf("%d ", vetorint[i]);
     }
 }
@@ -50,14 +49,14 @@ void ordenarVetoresInteiros(int vetorint[], int tam) {
     }
 }
 
-void getprimos(char vetor[], char vetorPrimo[]) {
+int getprimos(char vetor[], char vetorPrimo[]) {
 
     int size = 0;
     size = achasizedeStringes(vetor);
 
     int j = 0;
     printf("String de caracteres primos: ");
-    for(int i = 0; i < size; i++) {
+    for(int i = 0; i <= size; i++) {
         if(ehprimoOuN(vetor[i]) == 0 && vetor[i] != ' ') {
             vetorPrimo[j] = vetor[i];
             printf("%c", vetor[i]);
@@ -65,20 +64,12 @@ void getprimos(char vetor[], char vetorPrimo[]) {
             j++;
         }
     }
-        
+    return j;
 }
 
-int charehInt(char texto[], int textoInt[]) {
+int charehInt(char texto[], int textoInt[], int size) {
 
-    int i, size = 0, size1 = 0, charct, j = 0, sizeEspaco = 0;
-    while (texto[size] != '\0') {
-        if (texto[size] != ' ') {
-            size++;
-        } else {
-            size++;
-            sizeEspaco++;
-        }
-    }
+    int i, charct, j = 0;
     
     for(i = 0; i < size; i++) {
         if (texto[i] != ' ') {
@@ -87,8 +78,9 @@ int charehInt(char texto[], int textoInt[]) {
             j++;
         }
     }
-    size1 = size - sizeEspaco;
-    return size1;
+
+    printf("\nSize char: %d\n", size);
+    return size;
 }
 
 void vetorSemnumerosemRepeticao(int vetorint[], int resultado[], int size) {
@@ -124,19 +116,19 @@ void contarNumerosemVetorBidimensional(int vetor[], int result[], int size) {
 int main(void) {
     
     char texto[50], textoPrimo[50];
-    int vetorPint[50], size = 0, vetorResult[50];
+    int vetorPint[50], size = 0, size1, vetorResult[50];
 
     printf("Informe uma string: ");
     gets(texto);
-    getprimos(texto, textoPrimo);
-    size = charehInt(textoPrimo, vetorPint);
+    size = getprimos(texto, textoPrimo);
+    size1 = charehInt(textoPrimo, vetorPint, size);
     printf("\n\n==== VETOR DE PRIMOS ====\n");
-    mostraVetorInt(vetorPint, size);
+    mostraVetorInt(vetorPint, size1);
     printf("\n\n==== VETOR ORDENADO ====\n");
-    ordenarVetoresInteiros(vetorPint, size);
-    mostraVetorInt(vetorPint, size);
+    ordenarVetoresInteiros(vetorPint, size1);
+    mostraVetorInt(vetorPint, size1);
     printf("\n\n==== MATRIZ ====\n");
-    contarNumerosemVetorBidimensional(vetorPint, vetorResult, size);
+    contarNumerosemVetorBidimensional(vetorPint, vetorResult, size1);
 }
 
 
