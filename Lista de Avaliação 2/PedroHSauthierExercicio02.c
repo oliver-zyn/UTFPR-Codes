@@ -91,6 +91,7 @@ int elementos(int size, int sizeL, int sizeC, int vetor[size], int matriz[sizeL]
             }
         }
     }
+    ordenarVetoresInteiros(vetor2, size);
     size1 = noRepeticaoEmvetor(vetor2, size);
     return size1;
 }
@@ -106,6 +107,7 @@ int main(void) {
     gerarMatriz(4, 3, 97, 122, matriz);
     printf("\n\n==== MATRIZ ====\n");
     mostraMatriz(4, 3, matriz);
+    printf("\n\n==== ELEMENTOS DO VETOR 1 QUE ESTAO NA MATRIZ ====\n");
     size1 = elementos(10, 4, 3, vetor1, matriz, vetor2);
     mostraVetorInt(vetor2, size1);
 }
