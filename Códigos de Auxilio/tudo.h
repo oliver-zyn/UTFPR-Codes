@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <time.h>
+#include <math.h>
+#include <string.h>
 
 int maxDiv(int num, int num2) {
 
@@ -45,19 +49,6 @@ int qtdDivisores(int num) {
         }
     }
     return cont;
-}
-        
-int somaDiv(int num) {
-
-    int i, soma = 0;
-    
-    for (i = 1; i <= num; i++) {
-        if (num%i == 0) {
-            soma += i;
-        }
-    }
-    
-    return soma;
 }
         
 int somaDiv(int num) {
@@ -407,11 +398,10 @@ void mostraFat(int num, int fat) {
     printf("1 = %d\n", fat);
 }
         
-int primo(int num) {
-    int i = 2, cont = 0, result;
-    
-    for (i; i<=num / 2; i++) {
-        if (num%i == 0) {
+int ehprimoOuN(int numero) {
+    int i, cont = 0;
+    for (i = 2; i<=numero / 2; i++) {
+        if (numero%i == 0) {
             cont++;
             break;
         }
@@ -420,6 +410,24 @@ int primo(int num) {
         }
     }
     return cont;
+}
+
+int getprimos(char vetor[], char vetorPrimo[]) {
+
+    int size = 0;
+    size = sizeString(vetor);
+
+    int j = 0;
+    printf("String de caracteres primos: ");
+    for(int i = 0; i <= size; i++) {
+        if(ehprimoOuN(vetor[i]) == 0 && vetor[i] != ' ') {
+            vetorPrimo[j] = vetor[i];
+            printf("%c", vetor[i]);
+            fflush(stdin);
+            j++;
+        }
+    }
+    return j;
 }
         
 int binarioParaDecimal(long long binaryNum) {
@@ -437,43 +445,42 @@ int binarioParaDecimal(long long binaryNum) {
 }
         
 int inverteInteiro(int num) {
-    int reversed = 0;
+    int invertido = 0;
     
     while (num != 0) {
         int digit = num % 10;
-        reversed = reversed * 10 + digit;
+        invertido = invertido * 10 + digit;
         num /= 10;
     }
     
-    return reversed;
+    return invertido;
 }
         
 void pegarDigito(int numero) {
     int digito = 0, numeroSemUltimoDigito = 0;
     while (numero > 0) {
         digito = numero % 10;
-        //int numeroSemUltimoDigito = numero / 10;
         printf("Digito: %d\n", digito);
         numero /= 10;
     }
 }
         
-void gerarVetorCharMaiscula(char vetor[], int tam) {
-    for (int i = 0; i < tam; i++) {
+void gerarVetorCharMaiscula(char vetor[], int Size) {
+    for (int i = 0; i < Size; i++) {
         vetor[i] = rand() % 26 + 65;
     }
 }
         
-void gerarVetorCharMinuscula(char vetor[], int tam) {
-    for (int i = 0; i < tam; i++) {
+void gerarVetorCharMinuscula(char vetor[], int Size) {
+    for (int i = 0; i < Size; i++) {
         vetor[i] = rand() % 26 + 97;
     }
 }
         
-void mostraVetorChar(char vet[], int tamanho, int num) {
-    int i, j = 0;
+void mostraVetorChar(char vet[], int Size, int num) {
+    int j = 0;
 
-    for(i=0; i<tamanho; i++) {
+    for(int i = 0; i < Size; i++) {
         if (j < num - 1) {
             printf("%c ", vet[i]);
             j++;
@@ -484,42 +491,40 @@ void mostraVetorChar(char vet[], int tamanho, int num) {
     }
 }
         
-void mostraVetorInteiros(int vet[], int tamanho) {
-    int i;
-
-    for(i=0; i<tamanho; i++)
-    {
-        printf("%d ", vet[i]);
+void mostraVetorInt(int vetorint[], int Size)
+{
+    for(int i = 0; i<Size; i++) {
+        printf("%d ", vetorint[i]);
     }
 }
         
-void mostraVetorFloat(float vet[], int tamanho) {
-    int i;
+void mostraVetorFloat(float vet[], int Size) {
 
-    for(i=0; i<tamanho; i++)
+    for(int i = 0; i < Size; i++)
     {
         printf("%.1f  ", vet[i]);
     }
 }
         
-void mostraSomaVetorFloat(float vet[], int tamanho) {
-    int i;
+void mostraSomaVetorFloat(float vet[], int Size) {
     float soma = 0;
     
-    for(i=0; i<tamanho; i++){
+    for(int i = 0; i < Size; i++){
         soma += vet[i];
     }
     printf("\nSoma: %.2f", soma);
 }
         
-void ordenaVetor(int vetor[], int tam) {
-    int aux, i, j;
-    for (j = tam - 1; j > 0; j--) {
+void ordenarVetoresInteiros(int vetorint[], int Size) {
+
+    int j, auxiliar, i;
+
+    for (j = Size - 1; j > 0; j--) {
         for (i = 0; i < j; i++) {
-            if (vetor[i] > vetor[i + 1]) {
-                aux = vetor[i];
-                vetor[i] = vetor[i + 1];
-                vetor[i + 1] = aux;
+            if (vetorint[i] > vetorint[i + 1]) {
+                auxiliar = vetorint[i];
+                vetorint[i] = vetorint[i + 1];
+                vetorint[i + 1] = auxiliar;
             }
         }
     }
@@ -543,8 +548,7 @@ void geraVetorFloat0a100(float array[], int size) {
     }
 }
         
-void atualizaVetorComLimitesNegativosEPositivos(int array[], int size, int min, 
-int max) {
+void FazVetorComLimitesNegativosEPositivos(int array[], int size, int min, int max) {
 
     srand(time(NULL));
 
@@ -553,7 +557,7 @@ int max) {
     }
 }
         
-void gerarVetorComLimitesPositivos(int array[], int size, int min, int max) {
+void FazVetorComLimitesPositivos(int array[], int max, int min, int size) {
 
     srand(time(NULL));
 
@@ -668,7 +672,7 @@ void gerarVetorSemRepeticao(int vetor[], int tamanho, int limite) {
         
 int existeNoVetor(int vetor[], int size, int num) {
 
-    int i,count = 0;
+    int count = 0, i;
     
     for (i = 0; i < size; i++) {
         if (vetor[i] == num) {
@@ -680,12 +684,9 @@ int existeNoVetor(int vetor[], int size, int num) {
         
 int verificaAMaiorOcorrenciaNoVetor(int vetor[], int size) {
 
-    int soma, count, k, x, y, i;
+    int soma = 1, k, x, y, count = 1, i;
     
-    soma = 1;
-    count = 1;
     for (i = 0; i < size; i++) {
-        
         if (vetor[i] == y) {
             count += 1;
         } else {
@@ -698,9 +699,9 @@ int verificaAMaiorOcorrenciaNoVetor(int vetor[], int size) {
         y = vetor[i];
     }
     if (k == 0) {
-        printf("\nMaior quantidade de ocorrencias: %i por que teve %i ocorrencias.", vetor[i], soma);
+        printf("\nMaior quantidade de ocorrencias: %i por que %i ocorrencias.", vetor[i], soma);
     } else {
-        printf("\nMaior quantidade de ocorrencias: %i por que teve %i ocorrencias.", k, soma);
+        printf("\nMaior quantidade de ocorrencias: %i por que %i ocorrencias.", k, soma);
     }
     
 }
@@ -820,24 +821,19 @@ void quebraLinha(char string[]) {
     printf("%s", palavra);
 }
         
-void limparBuffer() {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF){}
-}
-        
 void concatenaStrings(char string1[], char string2[]) {
-  int size1 = 0, size2 = 0, i, j;
+    int size1 = 0, size2 = 0, i, j;
 
-  size1 = tamanhoString(string1);
-  size2 = tamanhoString(string2);
+    size1 = tamanhoString(string1);
+    size2 = tamanhoString(string2);
 
-  for (i = size1, j = 0; i < (size1 + size2); i++, j++) {
-    string1[i] = string2[j];
-  }
+    for (i = size1, j = 0; i < (size1 + size2); i++, j++) {
+        string1[i] = string2[j];
+    }
 
-  string1[size1 + size2] = '\0';
+    string1[size1 + size2] = '\0';
 
-  printf("%s", string1);
+    printf("%s", string1);
 }
         
 void contadorDeEspacos(char Vetor[]) {
@@ -886,47 +882,45 @@ int Includes(char string[], char substring[]) {
     return resultado;
 }
         
-int tamanhoString(char str[]) {
-  int tamanho = 0;
+int sizeString(char str[]) {
 
-  while (str[tamanho] != '\0') {
-    tamanho++;
-  }
-
-  return (tamanho - 1);
+    int size = 0;
+    while (str[size] != '\0') {
+        size++;
+    }
+    return size - 1;
 }
         
 int contaPalavras(char string[]) {
-  int i = 0, size = 0, countPalavras = 0, novaPalavra = 1;
+    int size = 0, i = 0, novaPalavra = 1, countPalavras = 0;
 
-  size = tamanhoString(string);
+    size = sizeString(string);
 
-  for(i = 0; i < size; i++) {
-    if (string[i] == ' ') {
-      novaPalavra = 1;
-    } else if (novaPalavra == 1) {
-      countPalavras++;
-      novaPalavra = 0;
+    for(i = 0; i < size; i++) {
+        if (string[i] == ' ') {
+        novaPalavra = 1;
+        } else if (novaPalavra == 1) {
+            novaPalavra = 0;
+            countPalavras++;
+        }
     }
-  }
 
-  return countPalavras;
+    return countPalavras;
 }
         
-int tamanhoString(char str[]) {
-  int tamanho = 0;
+int sizeString(char str[]) {
 
-  while (str[tamanho] != '\0') {
-    tamanho++;
-  }
-
-  return (tamanho - 1);
+    int size = 0;
+    while (str[size] != '\0') {
+        size++;
+    }
+    return size - 1;
 }
 
 void primeirasLetras(char vetor[], char string[]) {
   int i = 0, size = 0, j = 0;
 
-  size = tamanhoString(string);
+  size = sizeString(string);
 
   for (i = 0; i <= size; i++) {
     if ((i == 0 && string[i] != ' ') || (string[i] != ' ' && string[i-1] == ' ')) {
@@ -941,77 +935,67 @@ void primeirasLetras(char vetor[], char string[]) {
   
   printf("\n");
 }
-        
-int tamanhoString(char str[]) {
-  int tamanho = 0;
 
-  while (str[tamanho] != '\0') {
-    tamanho++;
-  }
+int sizeString(char str[]) {
 
-  return (tamanho - 1);
+    int size = 0;
+    while (str[size] != '\0') {
+        size++;
+    }
+    return size - 1;
 }
 
 void ultimasLetras(char vetor[], char string[]) {
-  int i = 0, size = 0, j = 0;
+    int i = 0, size = 0, j = 0;
 
-  size = tamanhoString(string);
+    size = sizeString(string);
 
-  for(i = 0; i <= size; i++) {
-    if ((string[i] != ' ' && string[i+1] == ' ') || (string[i] != ' ' && string[i + 1] == '\0')) {
-      vetor[j] = string[i];
-      j++;
+    for(i = 0; i <= size; i++) {
+        if ((string[i] != ' ' && string[i+1] == ' ') || (string[i] != ' ' && string[i + 1] == '\0')) {
+        vetor[j] = string[i];
+        j++;
+        }
     }
-  }
 
-  for (i = 0; i < j; i++) {
-    printf("%c  ", vetor[i]);
-  }
+    for (i = 0; i < j; i++) {
+        printf("%c  ", vetor[i]);
+    }
 
-  printf("\n");
+    printf("\n");
 }
         
-void gerarMatrizInteiro(int linha, int coluna, int matriz[linha][coluna], int limite) {
+void gerarMatrizInteiro(int SizeL, int SizeC, int matriz[SizeL][SizeC], int limite) {
 
   srand(time(NULL));
 
-  for (int j = 0; j < linha; j++) {
-      for (int i = 0; i < coluna; i++) {
-          matriz[j][i] = (rand() % limite) + 1;
+  for (int i = 0; i < SizeL; i++) {
+      for (int j = 0; j < SizeC; j++) {
+          matriz[i][j] = (rand() % limite) + 1;
       }
   }
 }
         
-void gerarMatrizInteiroPreenchida(int linha, int coluna, int matriz[linha][coluna], int num) {
+void gerarMatrizInteiroPreenchida(int SizeL, int SizeC, int matriz[SizeL][SizeC], int numero) {
 
-  for (int j = 0; j < linha; j++) {
-      for (int i = 0; i < coluna; i++) {
-          matriz[j][i] = num;
+  for (int i = 0; i < SizeL; i++) {
+      for (int j = 0; j < SizeC; j++) {
+          matriz[i][j] = numero;
       }
   }
 }
         
-void mostrarMatrizInteiro(int linha, int coluna, int matriz[linha][coluna]) {
+void mostrarMatrizInteiro(int SizeL, int SizeC, int matriz[SizeL][SizeC]) {
 
-  for (int j = 0; j < linha; j++) {
-      for (int i = 0; i < coluna; i++) {
-          printf("%d ", matriz[j][i]);
-      }
-      printf("\n");
-  }
+    for (int j = 0; j < SizeL; j++) {
+        for (int i = 0; i < SizeC; i++) {
+            printf("%d ", matriz[j][i]);
+        }
+        printf("\n");
+    }
 }
         
 int calcularPotencia(int base, int expoente) {
 
-  int resultado = 1;
-
-  for (int i = 0; i < expoente; i++) {
-      resultado *= base;
-  }
-  return resultado;
-}
-        
-int calcularPotencia(int base, int expoente) {
   int resultado = 1;
 
   for (int i = 0; i < expoente; i++) {
@@ -1033,70 +1017,60 @@ void calculaPotenciaPorVetores(int vetorbase[], int vetorexpoente[], int vetorRe
         
 int contadorDePalavras(char Vetor[], int vetorpalavras[]) {
 
-  int size = 0;
-  while(Vetor[size] != '\0') {
-      size++;
-  }
+    int size = 0;
+    int vetorPalavras[size], i, j = 0,count = 0;
 
-  int vetorPalavras[size], i, j = 0,count = 0;
+    while(Vetor[size] != '\0') {
+        size++;
+    }
 
-  for (i = 0; i < size; i++) {
-      if (Vetor[i] != ' ') {
-          count++;
-          if (Vetor[i + 1] == ' ' || Vetor[i + 1] == '\0') {
-              vetorPalavras[j] = count;
-              j++;
-              count = 0;
-          }
-      }
-  }
+    for (i = 0; i < size; i++) {
+        if (Vetor[i] != ' ') {
+            count++;
+            if (Vetor[i + 1] == ' ' || Vetor[i + 1] == '\0') {
+                vetorPalavras[j] = count;
+                j++;
+                count = 0;
+            }
+        }
+    }
 
-  printf("==== VETOR PALAVRAS ====\n");
-  for (i = 0; i < j; i++) {
-      printf("%d\t", vetorPalavras[i]);
-      vetorpalavras[i] = vetorPalavras[i];
-  }
-  return j;
-  printf("\n");
+    printf("==== VETOR PALAVRAS ====\n");
+    for (i = 0; i < j; i++) {
+        printf("%d\t", vetorPalavras[i]);
+        vetorpalavras[i] = vetorPalavras[i];
+    }
+    return j;
+    printf("\n");
 }
         
 int contadorDeEspacos(char Vetor[], int vetorespacos[]) {
 
-  int size = 0;
-  while(Vetor[size] != '\0') {
-      size++;
-  }
+    int size = 0;
+    int vetorEspacos[size], i, j = 0,count = 0;
 
-  int vetorEspacos[size], i, j = 0,count = 0;
+    while(Vetor[size] != '\0') {
+        size++;
+    }
 
-  for (i = 0; i < size; i++) {
-      if (Vetor[i] == ' ' && Vetor[i+1] == ' ') {
-          count++;
-      } else if (Vetor[i] == ' ' && Vetor[i+1] != ' ') {
-          count++;
-          vetorEspacos[j] = count;
-          j++;
-          count = 0;
-      }
-  }
-  printf("==== VETOR ESPACOS ====\n");
-  for (i = 0; i < j; i++) {
-      printf("%d\t", vetorEspacos[i]);
-      vetorespacos[i] = vetorEspacos[i];
-  }
-  return j;
-  printf("\n");
-}
-        
-void semRepeticao(int vetor[], int result[], int tamanho) {
-
-  int j = 0;
-  for(int i=0; i<tamanho; i++) {
-        if (i == 0 || vetor[i] != vetor[i-1]) {
-            result[j] = vetor[i];
+    for (i = 0; i < size; i++) {
+        if (Vetor[i] == ' ' && Vetor[i+1] == ' ') {
+            count++;
+        } else if (Vetor[i] == ' ' && Vetor[i+1] != ' ') {
+            count++;
+            vetorEspacos[j] = count;
             j++;
+            count = 0;
         }
     }
+
+    printf("==== VETOR ESPACOS ====\n");
+    for (i = 0; i < j; i++) {
+        printf("%d\t", vetorEspacos[i]);
+        vetorespacos[i] = vetorEspacos[i];
+    }
+    return j;
+    printf("\n");
 }
         
 void semRepeticao(int vetor[], int result[], int tamanho) {
@@ -1146,112 +1120,87 @@ void divisoresDeUmArraySemrepetidos(int vetor[], int tamanho) {
     }
 }
         
-int tamanhoString(char str[]) {
-  int tamanho = 0;
+int sizeString(char str[]) {
 
-  while (str[tamanho] != '\0') {
-    tamanho++;
-  }
-
-  return (tamanho - 1);
-}
-
-int verificaVogal(char letra) {
-  int result = 0;
-  
-  if (letra == 'a' || letra == 'e' || letra == 'i' || letra == 'o' || letra == 'u') {
-      result++;
-  }
-
-  if (letra == 'A' || letra == 'E' || letra == 'I' || letra == 'O' || letra == 'U') {
-      result++;
-  }
-
-  return result;
+    int size = 0;
+    while (str[size] != '\0') {
+        size++;
+    }
+    return size - 1;
 }
 
 void gaguejarString(char string[], char stringGaguejada[]) {
 
-  int tamanho, i = 0, j = 0, count = 1;
-  
-  tamanho = tamanhoString(string);
+    int tamanho, i = 0, j = 0, count = 1;
+    
+    tamanho = sizeString(string);
 
-  for(i = 0; i <= tamanho; i++) {
-    if (verificaVogal(string[i]) != 0) {
-      stringGaguejada[j] = string[i];
-      for (int k = 1; k <= count; k++) {
-        stringGaguejada[j + k] = string[i];
-      }
-      j += (count + 1);
-      count++;
-    } else {
-      stringGaguejada[j] = string[i];
-      j++;
+    for(i = 0; i <= tamanho; i++) {
+        if (verificaVogal(string[i]) != 0) {
+        stringGaguejada[j] = string[i];
+        for (int k = 1; k <= count; k++) {
+            stringGaguejada[j + k] = string[i];
+        }
+        j += (count + 1);
+        count++;
+        } else {
+        stringGaguejada[j] = string[i];
+        j++;
+        }
     }
-  }
 
-  stringGaguejada[j] = '\0';
+    stringGaguejada[j] = '\0';
 
-  printf("%s", stringGaguejada);
+    printf("%s", stringGaguejada);
 }
         
-int transformaCharEmInt(char texto[], int textoInt[]) {
+int charehInt(char texto[], int textoInt[], int size) {
 
-  int i, size = 0, size1 = 0, charc, j = 0, sizeEspaco = 0;
+    int i, charct, j = 0;
+    
+    for(i = 0; i < size; i++) {
+        if (texto[i] != ' ') {
+            charct = texto[i];
+            textoInt[j] = charct;
+            j++;
+        }
+    }
 
-  while (texto[size] != '\0') {
-      if (texto[size] != ' ') {
-          size++;
-      } else {
-          size++;
-          sizeEspaco++;
-      }
-  }
-  
-  for(i = 0; i < size; i++) {
-      if (texto[i] != ' ') {
-          charc = texto[i];
-          textoInt[j] = charc;
-          j++;
-      }
-  }
-  size1 = size - sizeEspaco;
-  printf("size: %d, size1: %d, sizeEspaco: %d", size, size1, sizeEspaco);
-  return size1;
+    return size;
 }
         
 void copy(int vetor0[], int vetor1[], int size1) {
-  for(int i = 0; i < size1; i++) {
-      vetor0[i] = vetor1[i];
-  }
+    for(int i = 0; i < size1; i++) {
+        vetor0[i] = vetor1[i];
+    }
 }
         
 void vetorParImpar(int vetor[], int size) {
 
-  int size2, vetorPar[size], vetorImpar[size], j = 0, y = 0;
+    int size2, vetorPar[size], vetorImpar[size], j = 0, y = 0;
 
-  size2 = noReps(vetor, size);
+    size2 = SemRepeticaoNoVetor(vetor, size);
 
-  for (int i = 0; i < size2; i++) {
-      if (vetor[i] % 2 == 0) {
-          vetorPar[j] = vetor[i];
-          j++;
-      } else {
-          vetorImpar[y] = vetor[i];
-          y++;
-      }
-  }
-  printf("\n\nNumero de pares (sem repeticao): %d\n",j);
-  printf("\nNumero de impares (sem repeticao): %d\n",y);
+    for (int i = 0; i < size2; i++) {
+        if (vetor[i] % 2 == 0) {
+            vetorPar[j] = vetor[i];
+            j++;
+        } else {
+            vetorImpar[y] = vetor[i];
+            y++;
+        }
+    }
+    printf("\n\nNumero de pares (sem repeticao): %d\n",j);
+    printf("\nNumero de impares (sem repeticao): %d\n",y);
 
-  printf("\n==== Vetor de PARES ====\n");
-  for (int i = 0; i < j; i++) {
-      printf("%d  ", vetorPar[i]);
-  }
-  printf("\n==== Vetor de IMPARES ====\n");
-  for (int i = 0; i < y; i++) {
-      printf("%d  ", vetorImpar[i]);
-  }
+    printf("\n==== Vetor de PARES ====\n");
+    for (int i = 0; i < j; i++) {
+        printf("%d  ", vetorPar[i]);
+    }
+    printf("\n==== Vetor de IMPARES ====\n");
+    for (int i = 0; i < y; i++) {
+        printf("%d  ", vetorImpar[i]);
+    }
 }
 
 void matrizParImpar(int vetor[], int size) {
@@ -1273,7 +1222,7 @@ void matrizParImpar(int vetor[], int size) {
           count = 0;
       }
   }
-  size2 = noReps(vetor, size);
+  size2 = SemRepeticaoNoVetor(vetor, size);
   printf("\n\n==== MATRIZ PAR ====\n");
   for (int i = 0, j = 0; i < size2; i++) {
       if (vetor[i] % 2 == 0) {
@@ -1290,39 +1239,36 @@ void matrizParImpar(int vetor[], int size) {
   }
 }
         
-int noReps(int vetors[], int size) {
+int SemRepeticaoNoVetor(int vetors[], int size) {
 
-  int i = 0, j = 0;
-  int vetorR[50];
+    int vetorR[50];
+    int i = 0, j = 0;
 
-  for (i = 0; i < size; i++) {
-      if (i == 0 || vetors[i] != vetors[i-1]) {
-          vetorR[j] = vetors[i];
-          j++;
-      }
-  }
-
-  for(i = 0; i < size; i++) {
-      if (vetorR[i] != '\0') {
-          vetors[i] = vetorR[i];
-      } else {
-          vetors[i] = '\0';
-      }
-  }
-  return j;
+    for (i = 0; i < size; i++) {
+        if (i == 0 || vetors[i] != vetors[i-1]) {
+            j++;
+            vetorR[j] = vetors[i];
+        }
+    }
+    for(i = 0; i < size; i++) {
+        if (vetorR[i] != '\0') {
+            vetors[i] = vetorR[i];
+        } else {
+            vetors[i] = '\0';
+        }
+    }
+    return j;
 }
         
 int verificaVogal(char letra) {
-  int result = 0;
-  
-  if (letra == 'a' || letra == 'e' || letra == 'i' || letra == 'o' || letra == 'u') {
-      result++;
-  }
-
-  if (letra == 'A' || letra == 'E' || letra == 'I' || letra == 'O' || letra == 'U') {
-      result++;
-  }
-
-  return result;
+    int resultado = 0;
+    
+    if (letra == 'A' || letra == 'E' || letra == 'I' || letra == 'O' || letra == 'U') {
+        resultado++;
+    }
+    if (letra == 'a' || letra == 'e' || letra == 'i' || letra == 'o' || letra == 'u') {
+        resultado++;
+    }
+    return resultado;
 }
         
