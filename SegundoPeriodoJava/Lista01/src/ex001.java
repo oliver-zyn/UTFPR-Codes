@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Ex001 {
+public class ex001 {
     public static void main(String[] args) throws Exception {
         Scanner dados = new Scanner(System.in);
         System.out.print("Digite o primeiro número: ");

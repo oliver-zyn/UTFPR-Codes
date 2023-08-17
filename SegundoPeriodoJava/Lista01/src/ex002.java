@@ -1,5 +1,16 @@
+import java.util.Scanner;
+
 public class ex002 {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+        Scanner dados = new Scanner(System.in);
+        System.out.print("Digite o comprimento: ");
+        int comprimento = dados.nextInt();
+        System.out.print("Digite a altura: ");
+        int altura = dados.nextInt();
+        System.out.print("Digite a largura: ");
+        int largura = dados.nextInt();
+        dados.close();
+        int volume = comprimento*altura*largura;
+        System.out.println("O volume é de: " + volume + "m");
     }
 }

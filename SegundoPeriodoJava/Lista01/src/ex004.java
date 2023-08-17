@@ -5,7 +5,7 @@ aumento = 10%. O novo valor do produto é R$ 2.200,00. (Utilize a classe JOption
 
 import javax.swing.JOptionPane;
 
-public class Ex004 {
+public class ex004 {
     public static void main(String[] args) throws Exception{
         String salario = JOptionPane.showInputDialog(null, "Informe o valor do salário: ");
         String taxa = JOptionPane.showInputDialog(null, "Informe o valor da taxa: ");
