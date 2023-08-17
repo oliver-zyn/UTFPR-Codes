@@ -19,3 +19,4 @@ public class ex003 {
         System.out.printf("A média salarial dos funcionários é: %.2f", (fSoma / nFuncionarios));
     }
 }
+
