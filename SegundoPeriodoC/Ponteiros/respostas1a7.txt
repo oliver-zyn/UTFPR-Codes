@@ -1,0 +1,13 @@
+1. Porque os inteiros ocupam 4 bytes de memória e os char ocupam 1 byte.
+
+2. 10040.
+
+3. O correto seria: p = &x.
+
+4. Não, quando o X é passado, é criado uma cópia da variável. Já o v[0] é passado como referência.
+
+5. 11, pois ele pegou o primeiro elemento do array e somou 1.
+
+6. A função imprime recebe um ponteiro da string s[] e o seu tamanho, em seguida realiza uma iteração para imprimir cada um dos caracteres da string, onde *c recebe o valor de cada um dos elementos de s[]
+
+7. 50, 40, 30
