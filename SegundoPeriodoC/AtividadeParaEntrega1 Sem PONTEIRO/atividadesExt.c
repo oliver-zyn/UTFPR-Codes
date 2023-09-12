@@ -14,12 +14,20 @@ typedef struct atvs {
     int RA;
     char Descricao[75];
     int CH;
-    Data dataIn;
-    Data datafi;
+    Data *dataIn;
+    Data *datafi;
 } Atvs;
 
+Data *dataNova(int d, int m, int a) {
+    Data *dt = (Data *)malloc(sizeof(Data));
+    dt->dia = d;
+    dt->mes = m;
+    dt->ano = a;
+    return dt;
+}
+
 void criaAtvs(Atvs *atividades) {
-    Data dataInicial, dataFinal;
+    int mes, dia, ano;
 
     printf("Qual o RA do aluno? ");
     scanf("%d", &atividades->RA);
@@ -34,20 +42,19 @@ void criaAtvs(Atvs *atividades) {
     fflush(stdin);
 
     printf("Qual a data inicial da atividade (dd mm aaaa)? ");
-    scanf("%d %d %d", &dataInicial.dia, &dataInicial.mes, &dataInicial.ano);
+    scanf("%d %d %d", &dia, &mes, &ano);
+    atividades->dataIn = dataNova(dia, mes, ano);
     fflush(stdin);
 
     printf("Qual a data final da atividade (dd mm aaaa)? ");
-    scanf("%d %d %d", &dataFinal.dia, &dataFinal.mes, &dataFinal.ano);
+    scanf("%d %d %d", &dia, &mes, &ano);
+    atividades->datafi = dataNova(dia, mes, ano);
     fflush(stdin);
-
-    atividades->dataIn = dataInicial;
-    atividades->datafi = dataFinal;
 
 };
 
-void imprimirData(Data dt) {
-    printf("%.2d/%.2d/%.4d\n", dt.dia, dt.mes, dt.ano);
+void imprimirData(Data *dt) {
+    printf("%.2d/%.2d/%.4d\n", dt->dia, dt->mes, dt->ano);
 }
 
 Data *dataHoje(void) {
@@ -66,9 +73,9 @@ void freeData(Data *data) {
     free(data);
 }
 
-int atividadeConcluida(Data dt) {
+int atividadeConcluida(Data *dt) {
     Data *hoje = dataHoje();
-    if (dt.ano < hoje->ano || (dt.ano == hoje->ano && dt.mes < hoje->mes) || (dt.ano == hoje->ano && dt.mes == hoje->mes && dt.dia <= hoje->dia)) {
+    if (dt->ano < hoje->ano || (dt->ano == hoje->ano && dt->mes < hoje->mes) || (dt->ano == hoje->ano && dt->mes == hoje->mes && dt->dia <= hoje->dia)) {
         freeData(hoje);
         return 1;
     } else {
