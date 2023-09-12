@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "atividadesExt.c"
+#include "atividadesExt.h"
 
 int main(void) {
     char continuar;
