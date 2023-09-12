@@ -2,10 +2,10 @@
 #include <math.h>
 #include "ponto.h"
 
-struct ponto {
+typedef struct ponto {
     float x;
     float y;
-};
+} Ponto;
 
 Ponto *criaPonto(float x, float y) {
     Ponto *p = malloc(sizeof(Ponto));
