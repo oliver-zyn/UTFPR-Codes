@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-#include "ponto.h"
+#include "ponto.c"
 
 int main(void) {
     Ponto *p1 = criaPonto(3, 4);
