@@ -19,7 +19,7 @@ struct atividade {
 };
 
 Data *dataNova(int d, int m, int a) {
-    Data *dt = (Data *)malloc(sizeof(Data));
+    Data *dt = malloc(sizeof(Data));
     dt->dia = d;
     dt->mes = m;
     dt->ano = a;
