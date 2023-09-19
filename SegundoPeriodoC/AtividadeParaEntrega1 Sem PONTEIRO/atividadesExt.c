@@ -50,7 +50,6 @@ void criaAtvs(Atvs *atividades) {
     scanf("%d %d %d", &dia, &mes, &ano);
     atividades->datafi = dataNova(dia, mes, ano);
     fflush(stdin);
-
 };
 
 void imprimirData(Data *dt) {
