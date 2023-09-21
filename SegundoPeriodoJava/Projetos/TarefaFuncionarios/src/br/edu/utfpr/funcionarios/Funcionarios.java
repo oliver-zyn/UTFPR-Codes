@@ -2,7 +2,7 @@ package br.edu.utfpr.funcionarios;
 
 import java.text.DecimalFormat;
 
-public class Funcionarios {
+public abstract class Funcionarios {
     private String nome;
     private double salario;
 
