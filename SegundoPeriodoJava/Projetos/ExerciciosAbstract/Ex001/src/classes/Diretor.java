@@ -27,12 +27,12 @@ public class Diretor extends Empregado{
     @Override
     public String toString() {
         return "{" +
-        " nome='" + getNome() + "'" +
-        ", endereço='" + getEndereço() + "'" +
-        ", telefone='" + getTelefone() + "'" +
-        " salarioBase='" + getSalarioBase() + "'" +
-        ", codigoSetor='" + getCodigoSetor() + "'" +
-        " gratificação='" + getGratificação() + "'" +
+        "Nome='" + getNome() + "'" +
+        ", Endereço='" + getEndereço() + "'" +
+        ", Telefone='" + getTelefone() + "'" +
+        ", Salario Base='" + getSalarioBase() + "'" +
+        ", Codigo Setor='" + getCodigoSetor() + "'" +
+        ", Gratificação='" + getGratificação() + "'" +
         "}";
     }
     

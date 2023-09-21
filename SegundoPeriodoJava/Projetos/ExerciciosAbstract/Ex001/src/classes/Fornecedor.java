@@ -42,11 +42,11 @@ public class Fornecedor extends Pessoa{
     @Override
     public String toString() {
         return "{" +
-        " nome='" + getNome() + "'" +
-        ", endereço='" + getEndereço() + "'" +
-        ", telefone='" + getTelefone() + "'" + 
-        " ValorCredito='" + getValorCredito() + "'" +
-        ", ValorDivida='" + getValorDivida() + "'" +
+        "Nome='" + getNome() + "'" +
+        ", Endereço='" + getEndereço() + "'" +
+        ", Telefone='" + getTelefone() + "'" + 
+        ", Valor Credito='" + getValorCredito() + "'" +
+        ", Valor Divida='" + getValorDivida() + "'" +
         "}";
     }
 }

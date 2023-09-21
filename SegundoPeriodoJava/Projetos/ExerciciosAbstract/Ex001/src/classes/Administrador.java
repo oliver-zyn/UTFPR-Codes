@@ -27,12 +27,12 @@ public class Administrador extends Empregado{
     @Override
     public String toString() {
         return "{" +
-        " nome='" + getNome() + "'" +
-        ", endereço='" + getEndereço() + "'" +
-        ", telefone='" + getTelefone() + "'" +
-        " salarioBase='" + getSalarioBase() + "'" +
-        ", codigoSetor='" + getCodigoSetor() + "'" +
-        " ajudaDeCusto='" + getAjudaDeCusto() + "'" +
+        "Nome='" + getNome() + "'" +
+        ", Endereço='" + getEndereço() + "'" +
+        ", Telefone='" + getTelefone() + "'" +
+        ", Salario Base='" + getSalarioBase() + "'" +
+        ", Codigo Setor='" + getCodigoSetor() + "'" +
+        ", Ajuda De Custo='" + getAjudaDeCusto() + "'" +
         "}";
     }
     
