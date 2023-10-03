@@ -1,15 +1,15 @@
-package br.edu.utfpr.AAC;
+package br.edu.utfpr.Escola;
 
-public class Endereço {
+public class Endereco {
     private String rua;
     private int numero;
     private String bairro;
     private String cidade;
 
-    public Endereço() {
+    public Endereco() {
     }
 
-    public Endereço(String rua, int numero, String bairro, String cidade) {
+    public Endereco(String rua, int numero, String bairro, String cidade) {
         this.rua = rua;
         this.numero = numero;
         this.bairro = bairro;
