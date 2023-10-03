@@ -100,7 +100,7 @@ void inserirItemOrdenado(Lista *l, int chave) {
         printf("Erro, lista cheia.");
         return;
     }
-    // Encontra a posição correta para inserir o item de forma ordenada
+
     int posicao = 0;
     while (posicao <= l->ultimo && l->item[posicao].chave < chave) {
         posicao++;
