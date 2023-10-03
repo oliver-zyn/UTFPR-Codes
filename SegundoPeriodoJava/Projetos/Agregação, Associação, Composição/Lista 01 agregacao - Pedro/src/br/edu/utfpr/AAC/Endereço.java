@@ -47,4 +47,5 @@ public class Endereço {
     public void setCidade(String cidade) {
         this.cidade = cidade;
     }
+
 }
