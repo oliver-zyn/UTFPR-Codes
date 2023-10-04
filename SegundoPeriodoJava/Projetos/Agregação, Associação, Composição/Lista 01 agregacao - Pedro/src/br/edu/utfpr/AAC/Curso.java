@@ -2,8 +2,8 @@ package br.edu.utfpr.AAC;
 
 public class Curso {
     private String nome;
-    private Disciplina[] disciplinas;
-    private Aluno[] alunos;
+    private Disciplina[] disciplinas; // Agregação
+    private Aluno[] alunos; // Agregação
     private int numAlunos;
     private int numDisciplinas;
 

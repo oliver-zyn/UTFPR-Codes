@@ -2,7 +2,7 @@ package br.edu.utfpr.AAC;
 
 public class Disciplina {
     private int codigo;
-    private Professor prof;
+    private Professor prof; // Agregação
     private String nome;
 
     public Disciplina() {

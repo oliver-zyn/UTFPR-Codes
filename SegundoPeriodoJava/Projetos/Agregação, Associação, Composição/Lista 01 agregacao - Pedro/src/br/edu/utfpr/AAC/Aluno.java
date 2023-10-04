@@ -1,6 +1,6 @@
 package br.edu.utfpr.AAC;
 
-public class Aluno extends Pessoa{
+public class Aluno extends Pessoa{ // Herança
     private String numMatricula;
     private int idade;
 

@@ -1,6 +1,6 @@
 package br.edu.utfpr.AAC;
 
-public class Professor extends Pessoa{
+public class Professor extends Pessoa{ // Herança
     private String ID;
 
     public Professor() {

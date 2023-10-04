@@ -3,7 +3,7 @@ package br.edu.utfpr.AAC;
 public abstract class Pessoa {
     private String nome;
     private String telefone;
-    private Endereço endereco;
+    private Endereço endereco; // Associação
 
     public Pessoa() {
     }
