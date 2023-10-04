@@ -2,8 +2,8 @@ package br.edu.utfpr.Escola;
 
 public class Curso {
   private String nome;
-  private Aluno[] alunos;
-  private Disciplina[] disciplinas;
+  private Aluno[] alunos; //Agregação
+  private Disciplina[] disciplinas; //Agregação
   private int numAlunos = 0;
   private int numDisciplinas = 0;
 
