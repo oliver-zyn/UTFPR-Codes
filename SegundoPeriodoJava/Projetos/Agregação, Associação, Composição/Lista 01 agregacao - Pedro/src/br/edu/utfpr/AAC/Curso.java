@@ -14,6 +14,8 @@ public class Curso {
         this.nome = nome;
         this.disciplinas = new Disciplina[10];
         this.alunos = new Aluno[30];
+        this.numAlunos = 0;
+        this.numDisciplinas = 0;
     }
 
     public String getNome() {
