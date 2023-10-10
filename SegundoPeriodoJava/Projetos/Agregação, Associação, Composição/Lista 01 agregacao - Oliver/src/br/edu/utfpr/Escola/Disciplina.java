@@ -1,10 +1,9 @@
 package br.edu.utfpr.Escola;
 
 public class Disciplina {
-    private int codigo;
-    private String nome;
-    private Professor professor;
-
+  private int codigo;
+  private String nome;
+  private Professor professor; //Agregação
 
   public Disciplina() {
   }

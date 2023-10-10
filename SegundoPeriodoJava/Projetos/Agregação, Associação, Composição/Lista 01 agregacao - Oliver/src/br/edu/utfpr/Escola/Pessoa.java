@@ -3,7 +3,7 @@ package br.edu.utfpr.Escola;
 public abstract class Pessoa {
   private String nome;
   private String telefone;
-  private Endereco endereco;
+  private Endereco endereco; //Associação
 
   public Pessoa() {
   }

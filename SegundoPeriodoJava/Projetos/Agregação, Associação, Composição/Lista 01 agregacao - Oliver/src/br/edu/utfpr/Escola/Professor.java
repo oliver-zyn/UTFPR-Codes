@@ -1,6 +1,6 @@
 package br.edu.utfpr.Escola;
 
-public class Professor extends Pessoa {
+public class Professor extends Pessoa { //Herança
   private int identificacao;
 
   public Professor() {
