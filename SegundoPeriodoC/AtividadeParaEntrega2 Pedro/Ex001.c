@@ -54,13 +54,15 @@ void enfileira(Fila *f, int chave, char titulo[], char genero[], int duracao) {
 void imprimeFila(Fila *f) {
     int t, i;
     i = f->primeiro;
+    printf("\nFilmes na fila: \n");
     for (t = 0; t < f->tamanho; t++) {
-        printf("Chave: %d\n", f->filme[i].chave);
+        printf("\nChave: %d\n", f->filme[i].chave);
         printf("Titulo: %s\n", f->filme[i].titulo);
         printf("Genero: %s\n", f->filme[i].genero);
         printf("Duracao: %d\n", f->filme[i].duracao);
         i = (i+1) % MAXTAM;
     }
+    printf("\n");
 };
 
 int filaVazia(Fila *f) {
@@ -82,7 +84,7 @@ void liberaFila(Fila *f) {
 
 int criaMenus() {
     int opcao = 0;
-    printf("Escolha: \nInserir filme no catalogo? - 1\nExcluir filme do catalogo? - 2\nBuscar filme especifico? - 3\nImprimir todos os elementos? - 4\nSair - 5");
+    printf("Escolha: \nInserir filme no catalogo? - 1\nExcluir um filme do catalogo? - 2\nBuscar filme especifico? - 3\nImprimir todos os elementos? - 4\nSair - 5\n");
     scanf("%d", &opcao);
     
     return opcao;
@@ -106,7 +108,7 @@ int buscarElemento(Fila *f, int chave, int Exibir) {
     }
 
     if(found == 0 && Exibir == 1) {
-        printf("Nao foi encontrado.");
+        printf("Nao foi encontrado.\n\n");
     }
     return found;
 };
@@ -132,10 +134,10 @@ void inserirNovoFilme(Fila *f) {
     fflush(stdin);
 
     if (buscarElemento(f, chave, 0) == 1) {
-        printf("\n Chave ja cadastrada!");
+        printf("\n Chave ja cadastrada!\n\n");
     } else {
         enfileira(f, chave, titulo, genero, duracao);
-        printf("\nAdicionado com sucesso!");
+        printf("\nAdicionado com sucesso!\n\n");
     }
 }
 
