@@ -88,7 +88,7 @@ void acresceTaxaLimpeza(Lista *lVazia, Lista *lCheia) {
     if (!verificarListaVazia(lCheia)) {
         for(int i = 0; i <= lCheia->ultimo; i++) {
             lVazia->ultimo++;
-            lVazia->reservas[i].custoDiaria = lCheia->reservas[i].custoDiaria * 1.1;
+            lCheia->reservas[i].custoDiaria = lCheia->reservas[i].custoDiaria * 1.1;
             lVazia->reservas[i] = lCheia->reservas[i];
         }
     }
