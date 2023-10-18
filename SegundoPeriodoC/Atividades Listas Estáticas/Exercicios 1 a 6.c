@@ -166,8 +166,6 @@ void intersecaoListas(Lista *l1, Lista *l2, Lista *Intersect) {
 
 // Exercicio 6:
 
-// Exercicio 6:
-
 void uniaoListas(Lista *l1, Lista *l2, Lista *Uniao) {
     int i, y;
     
