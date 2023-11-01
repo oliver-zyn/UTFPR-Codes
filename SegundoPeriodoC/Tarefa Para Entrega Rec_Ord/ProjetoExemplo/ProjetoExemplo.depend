@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1604011548 source:d:\_utfpr\disciplinas\estrutura_de_dados\aulas\20201029\projetoexemplo\main.c
+	<stdio.h>
+	<stdlib.h>
+
