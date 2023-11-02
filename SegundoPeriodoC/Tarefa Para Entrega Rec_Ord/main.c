@@ -34,12 +34,19 @@ void selectionSort(int v[200], int n) {
 
 void bubbleSort(int v[200], int n) {
     int i, j, aux;
-    for (i = n-1; i > 0; i--) {
+    for (i = n - 1; i > 0; i--) {
         for (j = 0; j < i; j++) {
-            if (v[j] > v[j+1]) {
+            if (v[j] > v[j + 1]) {
                 aux = v[j];
-                v[j] = v[j+1];
-                v[j+1] = aux; 
+                v[j] = v[j + 1];
+                v[j + 1] = aux;
+
+                // Adicione uma impressão dos passos aqui
+                printf("Passo %d: ", n - i);
+                for (int k = 0; k < n; k++) {
+                    printf("%d ", v[k]);
+                }
+                printf("\n");
             }
         }
     }

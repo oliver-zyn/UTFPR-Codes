@@ -6,26 +6,25 @@
 
 void bubbleSortStrings(char *arr[], int n) {
     int i, j;
-    int swapped;
+    char aux[100];
 
-    for (i = 0; i < n - 1; i++) {
-        swapped = 0;
-        for (j = 0; j < n - i - 1; j++) {
+    for (i = n - 1; i > 0; i--) {
+        for (j = 0; j < i; j++) {
             if (strcmp(arr[j], arr[j + 1]) > 0) {
-                char *temp = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = temp;
-                swapped = 1;
+                strcpy(aux, arr[j]);
+                strcpy(arr[j], arr[j + 1]);
+                strcpy(arr[j + 1], aux);
+
+                // Adicione uma impressão dos passos aqui
+                printf("Passo %d: ", n - i);
+                for (int k = 0; k < n; k++) {
+                    printf("%s ", arr[k]);
+                }
+                printf("\n");
             }
-        }
-        
-        if (swapped == 0) {
-            break;
         }
     }
 }
-
-// Quick Sort
 
 void swapStrings(char **str1, char **str2) {
     char *temp = *str1;
@@ -58,6 +57,15 @@ void quickSortStrings(char *arr[], int esq, int dir) {
     if (esq < dir) {
         int pivo = partition(arr, esq, dir);
 
+        printf("Pivo: %s\n", arr[pivo]);  // Impressão do pivo
+
+        // Adicione uma impressão dos passos aqui
+        printf("Passo: ");
+        for (int k = esq; k <= dir; k++) {
+            printf("%s ", arr[k]);
+        }
+        printf("\n");
+
         if (pivo - 1 >= esq) {
             quickSortStrings(arr, esq, pivo - 1);
         }
@@ -68,40 +76,78 @@ void quickSortStrings(char *arr[], int esq, int dir) {
 }
 
 int main() {
-    char **strings = NULL;
-    int n;
+    int n = 100, i = 0, y = 0;
+
+    char **strings = (char **)malloc(n * sizeof(char *));
+    char **strings2 = (char **)malloc(n * sizeof(char *));
+
+    printf("INSERINDO VALORES NO VETOR 1\n");
     
-    printf("Informe o número de strings: ");
-    scanf("%d", &n);
-
-    strings = (char **)malloc(n * sizeof(char *));
-    if (strings == NULL) {
-        printf("Erro na alocação de memória.\n");
-        return 1;
-    }
-
-    for (int i = 0; i < n; i++) {
+    do {
         strings[i] = (char *)malloc(100 * sizeof(char));
+        char input[100];
         printf("Informe a string %d: ", i + 1);
-        scanf("%s", strings[i]);
+        gets(input);
+        fflush(stdin);
+        if (input[0] != '0') {
+            strcpy(strings[i], input);
+            i++;
+        } else {
+            break;
+        }
+    } while (1);
+
+    printf("\nStrings desordenadas vetor 1:\n");
+    for (int v = 0; v < i; v++) {
+        printf("%s\n", strings[v]);
     }
 
-    printf("Strings desordenadas:\n");
-    for (int i = 0; i < n; i++) {
-        printf("%s\n", strings[i]);
-    }
-
-    quickSortStrings(strings, 0, n - 1);
+    quickSortStrings(strings, 0, i - 1);
 
     printf("\nStrings ordenadas usando Quick Sort:\n");
-    for (int i = 0; i < n; i++) {
-        printf("%s\n", strings[i]);
+    for (int v = 0; v < i; v++) {
+        printf("%s\n", strings[v]);
     }
 
-    for (int i = 0; i < n; i++) {
-        free(strings[i]);
+    printf("INSERINDO VALORES NO VETOR 2\n");
+
+    do {
+        strings2[y] = (char *)malloc(100 * sizeof(char));
+        char input[100];
+        printf("Informe a string %d: ", y + 1);
+        gets(input);
+        fflush(stdin);
+        if (input[0] != '0') {
+            strcpy(strings2[y], input);
+            y++;
+        } else {
+            break;
+        }
+    } while (1);
+
+    printf("\nStrings desordenadas vetor 2:\n");
+    for (int v = 0; v < y; v++) {
+        printf("%s\n", strings2[v]);
+    }
+
+    bubbleSortStrings(strings2, y);
+
+    printf("\nStrings ordenadas usando Bubble Sort:\n");
+    for (int v = 0; v < y; v++) {
+        printf("%s\n", strings2[v]);
+    }
+
+    // FREE
+
+    for (int v = 0; v < i; v++) {
+        free(strings[v]);
     }
     free(strings);
+
+    for (int v = 0; v < y; v++) {
+        free(strings2[v]);
+    }
+    free(strings2);
 
     return 0;
 }
