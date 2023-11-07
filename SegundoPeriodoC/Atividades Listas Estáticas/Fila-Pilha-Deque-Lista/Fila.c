@@ -7,7 +7,6 @@ struct fila{
     int primeiro;
     int ultimo;
     int tamanho;
-
 };
 Fila *criaFilaVazia(){
     Fila *f = malloc(sizeof(Fila));
