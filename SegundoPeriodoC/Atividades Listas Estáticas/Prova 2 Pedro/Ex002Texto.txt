@@ -1,0 +1,6 @@
+Vantagens:
+Em vez de deslocar todos os itens cada vez que um item for adicionado, o deslocamento só ocorre quando a lista alcança o último indice 
+possível, o que melhora o desempenho.
+
+Desvantagens:
+O espaço de memoria pode acabar sendo mal utilizado.
