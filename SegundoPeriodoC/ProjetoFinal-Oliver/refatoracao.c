@@ -17,6 +17,7 @@ typedef struct aluno {
 
 typedef struct nota {
   int codNota;
+  int codAluno;
   float valorNota;
 } Nota;
 
@@ -549,6 +550,32 @@ void loginAdm(Pilha *pAlunos, Pilha *pProfessores, Pilha *pUsuarios) {
 
 /* FUNCOES PROFESSORES */
 
+//FUNCOES PROFESSORES --> ALUNOS
+
+int listarAlunosSemTurma(Pilha *pAlunos) {
+  int encontrouAlunoSemTurma = 0;
+
+  if (pTurmas->topo < 1) {
+    printf("\nNao existem alunos cadastrados!\n");
+    return 0;
+  }
+
+  for (int i = pAlunos->topo; i >= 0; i--) {
+    Aluno *aluno = (Aluno*)pAlunos->itens[i];
+
+    if (aluno->codTurma == 0) {
+      encontrouAlunoSemTurma = 1;
+      printf("\n- RA: %d, Nome: %s\n", aluno->RA, aluno->nome);
+    }
+  }
+
+  if (encontrouAlunoSemTurma == 0) {
+    printf("\nNenhum aluno sem turma foi encontrado!\n");
+  }
+
+  return 1;
+}
+
 //FUNCOES PROFESSORES --> TURMAS
 
 void cadastraTurma(Pilha* pTurmas, char nome[], char disciplina[], int qtdMaxAlunos, int codProfessorResp) {
@@ -616,6 +643,23 @@ void atualizaTurma(Pilha* pTurmas, int codTurma, char nome[], char disciplina[],
   printf("\nTurma atualizada com sucesso!\n");
 }
 
+void excluirTurma(Pilha *pTurmas, int codTurma) {
+  for (int i = pTurmas->topo; i >= 0; i--) {
+    Turma* turmaAtual = (Turma*)pTurmas->itens[i];
+
+    if (turmaAtual->codTurma == codTurma) {
+      for (int k = i; k < pTurmas->topo; k++) {
+        pTurmas->itens[k] = pTurmas->itens[k + 1];
+      }
+
+      pTurmas->topo--;
+      break;
+    }
+  }
+
+  printf("\nTurma excluida com sucesso!\n");
+}
+
 int buscaTurma(Pilha *pTurmas, int codTurma) {
   int encontrouTurma = 0;
   
@@ -643,6 +687,31 @@ int quantidadeAlunosTurma(Pilha *pAlunos, int codTurma) {
   }
 
   return qtdAlunos;
+}
+
+int verificaDisponibilidadeTurma(Pilha *pTurmas, Pilha *pAlunos, int codTurma) {
+  int turmaDisponivel = 0;
+
+  for (int i = pTurmas->topo; i >= 0; i--) {
+    Turma *turma = (Turma*)pTurmas->itens[i];
+
+    if (quantidadeAlunosTurma(pAlunos, codTurma) < turma->qtdMaxAlunos) {
+      turmaDisponivel = 1;
+      break;
+    }
+  }
+
+  return turmaDisponivel;
+}
+
+void incluirAlunoEmTurma(Pilha *pAlunos, int RA, int codTurma) {
+  for (int i = pAlunos->topo; i >= 0; i--) {
+    Aluno *aluno = (Aluno*)pAlunos->itens[i];
+
+    if (aluno->RA == RA) {
+      aluno->codTurma = codTurma;
+    }
+  }
 }
 
 //FUNCOES PROFESSORES --> LOGIN
@@ -695,9 +764,8 @@ int exibeMenuProfessor() {
   printf("1- Cadastrar uma turma\n");
   printf("2- Editar uma turma\n");
   printf("3- Excluir uma turma\n");
-  printf("4- Adicionar alunos a uma turma\n");
-  printf("5- Visualizar alunos por turma\n");
-  printf("6- Visualizar todos os alunos\n");
+  printf("4- Adiciona aluno a uma turma\n");
+  printf("5- Visualizar alunos e turmas\n");
   printf("7- Lancar notas\n");
   printf("8- Excluir notas\n");
   printf("9- Sair\n");
@@ -775,7 +843,7 @@ void loginProfessores(Pilha *pAlunos, Pilha *pProfessores, Pilha *pUsuarios, Pil
           scanf("%d", &qtdMaxAlunos);
           fflush(stdin);
 
-          if (qtdMaxAlunos < quantidadeAlunosTurma(pAlunos, codTurma) || qtdMaxAlunos == 0) {
+          if (qtdMaxAlunos < quantidadeAlunosTurma(pAlunos, codTurma) && qtdMaxAlunos != 0) {
             printf("\nDigite uma quantidade maior que a quantidade de alunos cadastrados na turma!\n");
           } else {
             qtdAlunosValida = 1;
@@ -785,6 +853,69 @@ void loginProfessores(Pilha *pAlunos, Pilha *pProfessores, Pilha *pUsuarios, Pil
         
         atualizaTurma(pTurmas, codTurma, nome, disciplina, qtdMaxAlunos);
 
+        break;
+      case 3:
+        printf("\nTurmas disponiveis para exclusao:\n");
+
+        if (listarTurmas(pTurmas, pAlunos, pProfessores) == 0) {
+          break;
+        }
+
+        printf("\nDigite o codigo da turma que deseja excluir: ");
+        scanf("%d", &codTurma);
+        fflush(stdin);
+
+        if(buscaTurma(pProfessores, codTurma) == 0) {
+          printf("\nNenhuma turma com o codigo %d foi encontrada!\n", codTurma);
+          break;
+        }
+
+        if(quantidadeAlunosTurma(pAlunos, codTurma) > 0) {
+          printf("\nAinda existem alunos vinculados a essa turma!\n");
+          break;
+        }
+
+        excluirTurma(pTurmas, codTurma);
+
+        break;
+      case 4:
+        printf("\nAlunos sem turma disponiveis:\n");
+
+        if (listarAlunosSemTurma(pAlunos); == 0) {
+          break;
+        }
+
+        printf("\nDigite o RA do aluno que deseja editar: ");
+        scanf("%d", &RA);
+        fflush(stdin);
+
+        if(buscaAluno(pAlunos, RA) == 0) {
+          printf("\nNenhum aluno com o RA %d foi encontrado!\n", RA);
+          break;
+        }
+
+        printf("\nTurmas disponiveis:\n");
+
+        if (listarTurmas(pTurmas, pAlunos, pProfessores) == 0) {
+          break;
+        }
+
+        printf("\nDigite o codigo da turma que deseja incluir o aluno %d: ", RA);
+        scanf("%d", &codTurma);
+        fflush(stdin);
+
+        if(buscaTurma(pProfessores, codTurma) == 0) {
+          printf("\nNenhuma turma com o codigo %d foi encontrada!\n", codTurma);
+          break;
+        }
+
+        if(verificaDisponibilidadeTurma(pTurmas, pAlunos, codTurma) == 0) {
+          printf("\nA turma escolhida ja esta cheia!\n");
+          break;
+        }
+
+        incluirAlunoEmTurma(pAlunos, RA, codTurma);
+      
         break;
       case 9:
         printf("Saindo...");
