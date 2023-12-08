@@ -17,7 +17,7 @@ typedef struct aluno {
 
 typedef struct nota {
   int codNota;
-  int codAluno;
+  int raAluno;
   float valorNota;
 } Nota;
 
@@ -135,7 +135,13 @@ void cadastraUsuario(Pilha* pUsuarios, int codUsuario, char email[], char senha[
 }
 
 int listarUsuarios(Pilha* pUsuarios, Pilha *pAlunos, Pilha *pProfessores, int filtro) {
-  if (pUsuarios->topo < 1) {
+  if (pAlunos->topo == -1 && filtro == 0) {
+    printf("\nNao existem alunos cadastrados!\n");
+    return 0;
+  } else if (pProfessores->topo == -1 && filtro == 1) {
+    printf("\nNao existem professores cadastrados!\n");
+    return 0;
+  } else if (pUsuarios->topo == -1 && filtro == 2) {
     printf("\nNao existem usuarios cadastrados!\n");
     return 0;
   }
@@ -151,7 +157,7 @@ int listarUsuarios(Pilha* pUsuarios, Pilha *pAlunos, Pilha *pProfessores, int fi
       for (int j = pProfessores->topo; j >= 0; j--) {
         Professor *professor = (Professor*)pProfessores->itens[j];
         if (usuario->codUsuario == professor->codUsuario) {
-          printf("Codigo do Professor: %d, Nome: %s, Cpf: %s", professor->codProfessor,professor->nome, professor->cpf);
+          printf("- Codigo do Professor: %d, Nome: %s, Cpf: %s", professor->codProfessor,professor->nome, professor->cpf);
         }
       }
     }
@@ -160,7 +166,7 @@ int listarUsuarios(Pilha* pUsuarios, Pilha *pAlunos, Pilha *pProfessores, int fi
       for (int j = pAlunos->topo; j >= 0; j--) {
         Aluno *aluno = (Aluno*)pAlunos->itens[j];
         if (usuario->codUsuario == aluno->codUsuario) {
-          printf("RA do aluno: %d, Nome: %s, Cpf: %s", aluno->RA, aluno->nome, aluno->cpf);
+          printf("- RA do aluno: %d, Nome: %s, Cpf: %s", aluno->RA, aluno->nome, aluno->cpf);
         }
       }
     }
@@ -480,11 +486,11 @@ void loginAdm(Pilha *pAlunos, Pilha *pProfessores, Pilha *pUsuarios) {
 
       printf("\nDigite o nome do professor (0 para manter o mesmo): ");
       gets(nome);
-      printf("\nDigite o cpf do professor (0 para manter o mesmo): ");
+      printf("Digite o cpf do professor (0 para manter o mesmo): ");
       gets(cpf);
-      printf("\nDigite o email do professor (0 para manter o mesmo): ");
+      printf("Digite o email do professor (0 para manter o mesmo): ");
       gets(email);
-      printf("\nDigite uma senha para o professor (0 para manter a mesma): ");
+      printf("Digite uma senha para o professor (0 para manter a mesma): ");
       gets(senha);
       fflush(stdin);
       atualizaProfessor(pProfessores, codProfessor, nome, cpf);
@@ -555,7 +561,7 @@ void loginAdm(Pilha *pAlunos, Pilha *pProfessores, Pilha *pUsuarios) {
 int listarAlunosSemTurma(Pilha *pAlunos) {
   int encontrouAlunoSemTurma = 0;
 
-  if (pTurmas->topo < 1) {
+  if (pAlunos->topo == -1) {
     printf("\nNao existem alunos cadastrados!\n");
     return 0;
   }
@@ -576,6 +582,78 @@ int listarAlunosSemTurma(Pilha *pAlunos) {
   return 1;
 }
 
+int listarAlunosNotas(Pilha *pAlunos, Pilha *pNotas) {
+  if (pAlunos->topo == -1) {
+    printf("\nNao existem alunos cadastrados!\n");
+    return 0;
+  }
+
+  for (int i = pAlunos->topo; i >= 0; i--) {
+    Aluno *aluno = (Aluno*)pAlunos->itens[i];
+
+    printf("\n- RA: %d, Nome: %s\n", aluno->RA, aluno->nome);
+
+    for (int i = pNotas->topo; i >= 0; i--) {
+      Nota *nota = (Nota*)pNotas->itens[i];
+
+      if (nota->raAluno == aluno->RA) {
+        printf("  Nota: %.2f\n", nota->valorNota);
+        break;
+      }
+    }
+  }
+
+  return 1;
+}
+
+//FUNCOES PROFESSORES --> NOTAS
+
+void cadastraNota(Pilha* pNotas, int raAluno, float valorNota) {
+  Nota* novaNota = malloc(sizeof(Turma));
+
+  novaNota->codNota = geraCod();
+  novaNota->raAluno = raAluno;
+  novaNota->valorNota = valorNota;
+
+  inserePilha(pNotas, novaNota);
+}
+
+int validaNota(float valorNota) {
+  int notaValida = 1;
+
+  if (valorNota <= 10 && valorNota >= 0) {
+    notaValida = 0;
+    printf("\nA nota deve estar entre 0 e 10!\n");
+  }
+
+  return notaValida;
+}
+
+void excluirNotas(Pilha *pNotas, int RA) {
+  int notaEncontrada = 0;
+
+  for (int i = pNotas->topo; i >= 0; i--) {
+    Nota *nota = (Nota*)pNotas->itens[i];
+
+    if (nota->raAluno == RA) {
+      for (int k = i; k < pNotas->topo; k++) {
+        pNotas->itens[k] = pNotas->itens[k + 1];
+      }
+
+      pNotas->topo--;
+      notaEncontrada = 1;
+      break;
+    }
+  }
+
+  if (!notaEncontrada) {
+    printf("\nNenhuma nota para o aluno %d foi encontrada!\n", RA);
+    return;
+  }
+
+  printf("\nNotas excluidas com sucesso!\n");
+}
+
 //FUNCOES PROFESSORES --> TURMAS
 
 void cadastraTurma(Pilha* pTurmas, char nome[], char disciplina[], int qtdMaxAlunos, int codProfessorResp) {
@@ -590,8 +668,10 @@ void cadastraTurma(Pilha* pTurmas, char nome[], char disciplina[], int qtdMaxAlu
   inserePilha(pTurmas, novaTurma);
 }
 
-int listarTurmas(Pilha *pTurmas, Pilha *pAlunos, Pilha *pProfessores) {
-  if (pTurmas->topo < 1) {
+int listarTurmas(Pilha *pTurmas, Pilha *pAlunos, Pilha *pProfessores, Pilha *pNotas) {
+  int turmaTemAluno = 0;
+
+  if (pTurmas->topo == -1) {
     printf("\nNao existem turmas cadastradas!\n");
     return 0;
   }
@@ -599,19 +679,33 @@ int listarTurmas(Pilha *pTurmas, Pilha *pAlunos, Pilha *pProfessores) {
   for (int i = pTurmas->topo; i >= 0; i--) {
     Turma *turma = (Turma*)pTurmas->itens[i];
 
-    printf("\nTurma: %s, \n- Codigo da turma: %d \n- Disciplina: %s \n- Quantidade maxima de alunos: %d \n- Alunos:", turma->nome, turma->codTurma, turma->disciplina, turma->qtdMaxAlunos);
+    printf("\nTurma: %s, \n- Codigo da turma: %d \n- Disciplina: %s \n- Quantidade maxima de alunos: %d \n- Alunos: ", turma->nome, turma->codTurma, turma->disciplina, turma->qtdMaxAlunos);
 
     for (int j = pAlunos->topo; j >= 0; j--) {
       Aluno *aluno = (Aluno*)pAlunos->itens[j];
       if (turma->codTurma == aluno->codTurma) {
-        printf("Nome: %s, ", aluno->nome);
+        printf("\nNome: %s\n", aluno->nome);
+
+        for (int j = pNotas->topo; j >= 0; j--) {
+          Nota *nota = (Nota*)pNotas->itens[i];
+
+          if (nota->raAluno == aluno->RA) {
+            printf("  Nota: %.2f\n", nota->valorNota);
+          }
+        }
+
+        turmaTemAluno = 1;
       }
+    }
+
+    if (!turmaTemAluno) {
+      printf("Nenhum aluno");
     }
 
     for (int j = pProfessores->topo; j >= 0; j--) {
       Professor *professor = (Professor*)pProfessores->itens[j];
       if (turma->codProfessorResp == professor->codProfessor) {
-        printf("\n- Professor: %s", professor->nome);
+        printf("\n- Professor: %s\n", professor->nome);
         break;
       }
     }
@@ -695,7 +789,7 @@ int verificaDisponibilidadeTurma(Pilha *pTurmas, Pilha *pAlunos, int codTurma) {
   for (int i = pTurmas->topo; i >= 0; i--) {
     Turma *turma = (Turma*)pTurmas->itens[i];
 
-    if (quantidadeAlunosTurma(pAlunos, codTurma) < turma->qtdMaxAlunos) {
+    if (turma->codTurma == codTurma && quantidadeAlunosTurma(pAlunos, codTurma) < turma->qtdMaxAlunos) {
       turmaDisponivel = 1;
       break;
     }
@@ -730,9 +824,9 @@ int buscaCodProfessor(Pilha *pProfessores, int codUsuario) {
   return codProfessor;
 }
 
-int solicitaLoginProfessor(Pilha *pUsuarios) {
+int solicitaLogin(Pilha *pUsuarios, int professor) {
   char email[50], senha[50];
-  int codUsuarioProfessor = 0;
+  int codUsuario = 0;
 
   printf("\nDigite seu email: ");
   gets(email);
@@ -746,14 +840,14 @@ int solicitaLoginProfessor(Pilha *pUsuarios) {
 
     descriptografaSenha(senhaAtual);
 
-    if (strcmp(usuarioAtual->email, email) == 0 && strcmp(senhaAtual, senha) == 0 && usuarioAtual->professor == 1) {
-      codUsuarioProfessor = usuarioAtual->codUsuario;
+    if (strcmp(usuarioAtual->email, email) == 0 && strcmp(senhaAtual, senha) == 0 && usuarioAtual->professor == professor) {
+      codUsuario = usuarioAtual->codUsuario;
       printf("\nLogin realizado com sucesso!\n");
       break;
     }
   }
 
-  return codUsuarioProfessor;
+  return codUsuario;
 }
 
 int exibeMenuProfessor() {
@@ -766,9 +860,9 @@ int exibeMenuProfessor() {
   printf("3- Excluir uma turma\n");
   printf("4- Adiciona aluno a uma turma\n");
   printf("5- Visualizar alunos e turmas\n");
-  printf("7- Lancar notas\n");
-  printf("8- Excluir notas\n");
-  printf("9- Sair\n");
+  printf("6- Lancar notas\n");
+  printf("7- Excluir notas\n");
+  printf("8- Sair\n");
   printf("Opcao: ");
   scanf("%d", &opcao);
   fflush(stdin);
@@ -776,12 +870,13 @@ int exibeMenuProfessor() {
   return opcao;
 }
 
-void loginProfessores(Pilha *pAlunos, Pilha *pProfessores, Pilha *pUsuarios, Pilha *pTurmas) {
+void loginProfessor(Pilha *pAlunos, Pilha *pProfessores, Pilha *pUsuarios, Pilha *pTurmas, Pilha *pNotas) {
   char tentarNovamente, nome[50], disciplina[50];
-  int codUsuarioProfessorLogado = 0, codProfessorLogado = 0, logou = 0, opcao = 0, qtdMaxAlunos = 0, codTurma = 0;
+  int codUsuarioProfessorLogado = 0, codProfessorLogado = 0, logou = 0, opcao = 0, qtdMaxAlunos = 0, codTurma = 0, RA = 0;
+  float nota = 0;
   
   do {
-    codUsuarioProfessorLogado = solicitaLoginProfessor(pUsuarios);
+    codUsuarioProfessorLogado = solicitaLogin(pUsuarios, 1);
 
     if (codUsuarioProfessorLogado == 0) {
       printf("\nUsuario e/ou senha invalidos!");
@@ -819,7 +914,7 @@ void loginProfessores(Pilha *pAlunos, Pilha *pProfessores, Pilha *pUsuarios, Pil
       case 2:
         printf("\nTurmas disponiveis para edicao:\n");
 
-        if (listarTurmas(pTurmas, pAlunos, pProfessores) == 0) {
+        if (listarTurmas(pTurmas, pAlunos, pProfessores, pNotas) == 0) {
           break;
         }
 
@@ -827,7 +922,7 @@ void loginProfessores(Pilha *pAlunos, Pilha *pProfessores, Pilha *pUsuarios, Pil
         scanf("%d", &codTurma);
         fflush(stdin);
 
-        if(buscaTurma(pProfessores, codTurma) == 0) {
+        if(buscaTurma(pTurmas, codTurma) == 0) {
           printf("\nNenhuma turma com o codigo %d foi encontrada!\n", codTurma);
           break;
         }
@@ -849,7 +944,7 @@ void loginProfessores(Pilha *pAlunos, Pilha *pProfessores, Pilha *pUsuarios, Pil
             qtdAlunosValida = 1;
           }
 
-        } while (qtdMaxAlunos != 1);
+        } while (qtdAlunosValida != 1);
         
         atualizaTurma(pTurmas, codTurma, nome, disciplina, qtdMaxAlunos);
 
@@ -857,7 +952,7 @@ void loginProfessores(Pilha *pAlunos, Pilha *pProfessores, Pilha *pUsuarios, Pil
       case 3:
         printf("\nTurmas disponiveis para exclusao:\n");
 
-        if (listarTurmas(pTurmas, pAlunos, pProfessores) == 0) {
+        if (listarTurmas(pTurmas, pAlunos, pProfessores, pNotas) == 0) {
           break;
         }
 
@@ -865,7 +960,7 @@ void loginProfessores(Pilha *pAlunos, Pilha *pProfessores, Pilha *pUsuarios, Pil
         scanf("%d", &codTurma);
         fflush(stdin);
 
-        if(buscaTurma(pProfessores, codTurma) == 0) {
+        if(buscaTurma(pTurmas, codTurma) == 0) {
           printf("\nNenhuma turma com o codigo %d foi encontrada!\n", codTurma);
           break;
         }
@@ -881,7 +976,7 @@ void loginProfessores(Pilha *pAlunos, Pilha *pProfessores, Pilha *pUsuarios, Pil
       case 4:
         printf("\nAlunos sem turma disponiveis:\n");
 
-        if (listarAlunosSemTurma(pAlunos); == 0) {
+        if (listarAlunosSemTurma(pAlunos) == 0) {
           break;
         }
 
@@ -896,7 +991,7 @@ void loginProfessores(Pilha *pAlunos, Pilha *pProfessores, Pilha *pUsuarios, Pil
 
         printf("\nTurmas disponiveis:\n");
 
-        if (listarTurmas(pTurmas, pAlunos, pProfessores) == 0) {
+        if (listarTurmas(pTurmas, pAlunos, pProfessores, pNotas) == 0) {
           break;
         }
 
@@ -904,7 +999,7 @@ void loginProfessores(Pilha *pAlunos, Pilha *pProfessores, Pilha *pUsuarios, Pil
         scanf("%d", &codTurma);
         fflush(stdin);
 
-        if(buscaTurma(pProfessores, codTurma) == 0) {
+        if(buscaTurma(pTurmas, codTurma) == 0) {
           printf("\nNenhuma turma com o codigo %d foi encontrada!\n", codTurma);
           break;
         }
@@ -917,16 +1012,276 @@ void loginProfessores(Pilha *pAlunos, Pilha *pProfessores, Pilha *pUsuarios, Pil
         incluirAlunoEmTurma(pAlunos, RA, codTurma);
       
         break;
-      case 9:
-        printf("Saindo...");
+      case 5:
+        printf("\nTurmas:\n");
+        if (listarTurmas(pTurmas, pAlunos, pProfessores, pNotas) == 0) {
+          break;
+        }
+
+        printf("\nAlunos sem turma:");
+        if (listarAlunosSemTurma(pAlunos) == 0) {
+          break;
+        }
+
+        break;
+
+      case 6:
+        printf("\nAlunos disponiveis no sistema:\n");
+
+        if (listarAlunosNotas(pAlunos, pNotas) == 0) {
+          break;
+        }
+
+        printf("\nDigite o RA do aluno que deseja lancar uma nota: ");
+        scanf("%d", &RA);
+        fflush(stdin);
+
+        if(buscaAluno(pAlunos, RA) == 0) {
+          printf("\nNenhum aluno com o RA %d foi encontrado!\n", RA);
+          break;
+        }
+
+        printf("\nDigite a nota para o aluno: \n");
+        scanf("%f", &nota);
+
+        if(validaNota(nota) == 0) {
+          break;
+        }
+
+        cadastraNota(pNotas, RA, nota);
+
+        break;
+      
+      case 7:
+        printf("\nAlunos disponiveis no sistema::\n");
+
+        if (listarAlunosNotas(pAlunos, pNotas) == 0) {
+          break;
+        }
+
+        printf("\nDigite o RA do aluno que deseja excluir as notas: ");
+        scanf("%d", &RA);
+        fflush(stdin);
+
+        if(buscaAluno(pAlunos, RA) == 0) {
+          printf("\nNenhum aluno com o RA %d foi encontrado!\n", RA);
+          break;
+        }
+
+        excluirNotas(pNotas, RA);
+
+        break;
+      case 8:
+        printf("\nSaindo...\n");
 
         break;
       default:
+        printf("\nESCOLHA UMA OPCAO VALIDA!\n");
+
         break;
     }
 
-  } while (opcao != 9); 
+  } while (opcao != 8); 
+}
+
+/* FUNCOES ALUNOS */
+
+float calcularMedia(Pilha *pAlunos, Pilha *pNotas, int RA) {
+  float somaNotas = 0;
+  int numNotas = 0;
+
+  for (int i = pAlunos->topo; i >= 0; i--) {
+    Aluno *aluno = (Aluno*)pAlunos->itens[i];
+
+    if (aluno->RA == RA) {
+
+      for (int j = pNotas->topo; j >= 0; j--) {
+        Nota *nota = (Nota*)pNotas->itens[j];
+
+        if (nota->raAluno == aluno->RA) {
+          somaNotas += nota->valorNota;
+          numNotas++;
+        }
+      }
+
+      if (numNotas > 0) {
+        float media = somaNotas / numNotas;
+        return media;
+      }
+
+    break;
+    }
+  }
+
+  return 0;
+}
+
+void visualizarBoletimAluno(Pilha *pAlunos, Pilha *pNotas, Pilha *pTurmas, int RA) {
+  int encontrouTurma = 0, encontrouNota = 0;
+
+  for (int i = pAlunos->topo; i >= 0; i--) {
+    Aluno *aluno = (Aluno*)pAlunos->itens[i];
+
+    if (aluno->RA == RA) {
+      printf("\n==== BOLETIM ALUNO: %s - %d ====\n", aluno->nome, aluno->RA);
+      printf("\nTurma: ");
+
+      for (int j = pTurmas->topo; j >= 0; j--) {
+        Turma *turma = (Turma*)pTurmas->itens[j];
+
+        if (turma->codTurma == aluno->codTurma) {
+          printf("%s", turma->nome);
+          encontrouTurma = 1;
+          break;
+        }
+      }
+
+      if (!encontrouTurma) {
+        printf("Nenhuma turma");
+      }
+
+      printf("\nNotas:");
+
+      for (int j = pNotas->topo; j >= 0; j--) {
+        Nota *nota = (Nota*)pNotas->itens[j];
+
+        if (nota->raAluno == aluno->RA) {
+          printf(" %f", nota->valorNota);
+          encontrouNota = 1;
+        }
+      }
+
+      if (!encontrouNota) {
+        printf("Nenhuma nota");
+      }
+
+      printf("\nMedia: %.2f", calcularMedia(pAlunos, pNotas, RA));
+    }
+  }
+}
+
+void listaColegasTurma(Pilha *pAlunos, Pilha *pTurmas, int RA) {
+  int codTurma = 0;
+  char nomeTurma[50], disciplinaTurma[50];
+
+  for (int i = pAlunos->topo; i >= 0; i--) {
+    Aluno *aluno = (Aluno*)pAlunos->itens[i];
+
+    if (aluno->RA == RA) {
+
+      if (aluno->codTurma == 0) {
+        printf("\nVoce nao esta cadastrado em nenhuma turma!\n");
+        return;
+      }
+
+      codTurma = aluno->codTurma;
+      break;
+    }
+  }
+
+  for (int i = pTurmas->topo; i >= 0; i--) {
+    Turma *turma = (Turma*)pTurmas->itens[i];
+
+    if (turma->codTurma == codTurma) {
+      strcpy(nomeTurma, turma->nome);
+      strcpy(disciplinaTurma, turma->disciplina);
+      break;
+    }
+  }
+
+  printf("\n==== COLEGAS DE TURMA ====\n");
+  for (int i = pAlunos->topo; i >= 0; i--) {
+    Aluno *aluno = (Aluno*)pAlunos->itens[i];
+
+    if (aluno->codTurma == codTurma && aluno->RA != RA) {
+      printf("- %s\n", aluno->nome);
+    }
+  }
+
+  printf("\nTurma: %s\n", nomeTurma);
+  printf("Disciplina: %s\n", disciplinaTurma);
+}
+
+//FUNCOES ALUNOS --> LOGIN
+
+int buscaRaAluno(Pilha *pAlunos, int codUsuario) {
+  int RA = 0;
   
+  for (int i = pAlunos->topo; i >= 0; i--) {
+    Aluno *aluno = (Aluno*)pAlunos->itens[i];
+
+    if (aluno->codUsuario == codUsuario) {
+      RA = aluno->RA;
+      break;
+    }
+  }
+
+  return RA;
+}
+
+int exibeMenuAluno() {
+  int opcao = 0;
+
+  printf("\n===== MENU DE ALUNO =====\n");
+  printf("\nEscolha uma opcao: \n");
+  printf("1- Visualizar boletim\n");
+  printf("2- Visualizar colegas de turma\n");
+  printf("3- Sair\n");
+  printf("Opcao: ");
+  scanf("%d", &opcao);
+  fflush(stdin);
+
+  return opcao;
+}
+
+void loginAluno(Pilha *pAlunos, Pilha *pUsuarios, Pilha *pTurmas, Pilha *pNotas) {
+  int codUsuarioAlunoLogado = 0, logou = 0, opcao = 0, RaAlunoLogado = 0;
+  char tentarNovamente;
+
+  do {
+    codUsuarioAlunoLogado = solicitaLogin(pUsuarios, 0);
+
+    if (codUsuarioAlunoLogado == 0) {
+      printf("\nUsuario e/ou senha invalidos!");
+
+      printf("\nDeseja tentar logar novamente? (S/N): ");
+      scanf("%c", &tentarNovamente);
+      fflush(stdin);
+
+      if (tentarNovamente != 'S' && tentarNovamente != 's') {
+        return;
+      }
+
+    } else {
+      logou = 1;
+    }
+  } while (logou == 0);
+
+  RaAlunoLogado = buscaRaAluno(pAlunos, codUsuarioAlunoLogado);
+
+  do {
+    opcao = exibeMenuAluno();
+
+    switch (opcao) {
+      case 1:
+        visualizarBoletimAluno(pAlunos, pNotas, pTurmas, RaAlunoLogado);
+
+        break;
+      case 2:
+        listaColegasTurma(pAlunos, pTurmas, RaAlunoLogado);
+
+        break;
+      case 3:
+        printf("\nSaindo...\n");
+
+        break;
+      default:
+        printf("\nESCOLHA UMA OPCAO VALIDA!\n");
+
+        break;
+      }
+  } while (opcao != 3); 
+
 }
 
 int main(void) {
@@ -948,7 +1303,11 @@ int main(void) {
 
         break;
       case 2:
-        loginProfessores(pAlunos, pProfessores, pUsuarios, pTurmas);
+        loginProfessor(pAlunos, pProfessores, pUsuarios, pTurmas, pNotas);
+
+        break;
+      case 3:
+        loginAluno(pAlunos, pUsuarios, pTurmas, pNotas);
 
         break;
       case 4:
